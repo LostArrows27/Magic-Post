@@ -13,14 +13,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {toast} from "sonner"
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { SignInSchema } from "@/schema/auth-schema";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import {  useState } from "react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 export type tSignInSchema = z.infer<typeof SignInSchema>;
 export default function SignIn() {
   const router = useRouter();
@@ -43,6 +45,7 @@ export default function SignIn() {
         setServerError(res.data.error.message);
       }
     } else {
+      toast.success("Login Success");
       if (searchParams.get("redirect")) {
         router.push(searchParams.get("redirect") as string);
       } else {
@@ -50,27 +53,7 @@ export default function SignIn() {
       }
     }
   }
-  const handleSignInWithDC = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "discord",
-      options: {
-        redirectTo: `${location.origin}/api/callback/login`,
-      },
-    });
-  };
-
-  const handleSignInWithGG = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${location.origin}/api/callback/login`,
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-      },
-    });
-  };
+  
 
   return (
     <main className="bg-background relative flex flex-col items-center w-screen h-full overflow-hidden">
@@ -169,12 +152,14 @@ export default function SignIn() {
             outAnimation && " fade-out"
           )}
         >
-          By signing up, you agree to our{" "}
-          <span className="text-primary cursor-pointer">Terms of Service</span>{" "}
-          and{" "}
-          <span className="text-primary cursor-pointer">Privacy Policy</span>.
-          For information on how we utilize cookies, please refer to our{" "}
-          <span className="text-primary cursor-pointer"> Cookies Policy</span>.
+          This sign in route is for{' '}
+          <span className="text-primary cursor-pointer">
+            Magic Post&apos;s Staff Only
+          </span>. If you are not a staff member please go to the back to{' '}
+          <Link href={"/"} className="text-primary cursor-pointer">
+            Main Page
+          </Link>
+          .
         </p>
       </div>
     </main>
