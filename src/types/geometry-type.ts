@@ -20,6 +20,16 @@ type Ward = {
   LOCATION_CODE: string;
 };
 
+type Subward = {
+  id: string;
+  name: string;
+  l: {
+    lat: number;
+    lng: number;
+  };
+  type: string;
+};
+
 // export all
 
-export type { Province, District, Ward };
+export type { Province, District, Ward, Subward };
