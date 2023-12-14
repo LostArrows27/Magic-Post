@@ -15,7 +15,6 @@ type UserContextType = {
   user: UserSystem | null;
   isLoading: boolean;
   userDetails: Staff | null;
-  role: Role | undefined;
 };
 
 export type { UserContextType, UserSystem };

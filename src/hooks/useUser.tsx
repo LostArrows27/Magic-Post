@@ -3,8 +3,8 @@ import {
   useSessionContext,
   useUser as useSupaUser,
 } from "@supabase/auth-helpers-react";
-import { Staff } from "@/types/supabase-table-type";
 import { UserContextType, UserSystem } from "@/types/user-context-type";
+import { Staff } from "@/types/supabase-table-type";
 
 export const UserContext = createContext<UserContextType | undefined>(
   undefined
@@ -36,7 +36,9 @@ export const MyUserContextProvider = (props: Props) => {
           .select("*")
           .eq("id", user.id)
           .single();
-        setUserDetails(userDetail.data);
+        setUserDetails({
+          ...userDetail.data,
+        });
         setIsLoadingData(false);
       }
     };
@@ -46,7 +48,6 @@ export const MyUserContextProvider = (props: Props) => {
   }, [user, isLoadingUser]);
 
   const value: UserContextType = {
-    role: user?.user_metadata.type,
     accessToken,
     userDetails,
     user,
