@@ -13,14 +13,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {toast} from "sonner"
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { SignInSchema } from "@/schema/auth-schema";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import {  useState } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 export type tSignInSchema = z.infer<typeof SignInSchema>;
@@ -28,7 +28,7 @@ export default function SignIn() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string>("");
   const [outAnimation, setOutAnimation] = useState<boolean>(false);
-  const supabase = createClientComponentClient();
+  // const supabase = createClientComponentClient<Database>();
 
   const searchParams = useSearchParams();
 
@@ -53,7 +53,6 @@ export default function SignIn() {
       }
     }
   }
-  
 
   return (
     <main className="bg-background relative flex flex-col items-center w-screen h-full overflow-hidden">
@@ -152,10 +151,11 @@ export default function SignIn() {
             outAnimation && " fade-out"
           )}
         >
-          This sign in route is for{' '}
+          This sign in route is for{" "}
           <span className="text-primary cursor-pointer">
             Magic Post&apos;s Staff Only
-          </span>. If you are not a staff member please go to the back to{' '}
+          </span>
+          . If you are not a staff member please go to the back to{" "}
           <Link href={"/"} className="text-primary cursor-pointer">
             Main Page
           </Link>

@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 // import type { Database } from "@/types/supabaseTypes";
 import { tSignInSchema } from "@/app/(auth)/sign-in/page";
 import { SignInSchema } from "@/schema/auth-schema";
+import { Database } from "@/types/supabase-type";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,7 @@ export async function POST(request: Request) {
   const email = formData.email;
   const password = formData.password;
   
-  const supabase = createRouteHandlerClient({ cookies });
+  const supabase = createRouteHandlerClient<Database>({ cookies });
   const res = await supabase.auth.signInWithPassword({
     email,
     password,
