@@ -9,7 +9,7 @@ export default function OfficeHome() {
 
   const router = useRouter();
 
-  const { userDetails, role, user } = useUser();
+  const { userDetails, user } = useUser();
 
   return (
     <div>
