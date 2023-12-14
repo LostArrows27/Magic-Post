@@ -13,14 +13,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {toast} from "sonner"
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { SignInSchema } from "@/schema/auth-schema";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import {  useState } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 export type tSignInSchema = z.infer<typeof SignInSchema>;
@@ -49,11 +49,10 @@ export default function SignIn() {
       if (searchParams.get("redirect")) {
         router.push(searchParams.get("redirect") as string);
       } else {
-        router.push("/");
+        router.push("/office");
       }
     }
   }
-  
 
   return (
     <main className="bg-background relative flex flex-col items-center w-screen h-full overflow-hidden">
@@ -65,7 +64,7 @@ export default function SignIn() {
         sizes="100vw"
         priority={true}
         quality={100}
-        className="absolute  w-screen min-w-[1440px] h-screen min-h-[760px]  top-0 select-none pointer-events-none"
+        className="absolute object-cover w-screen min-w-[1440px] h-screen min-h-[760px]  top-0 select-none pointer-events-none"
       />
       <div className="flex flex-col items-center  h-full justify-center  w-full overflow-y-scroll  ">
         <Tilt
@@ -152,10 +151,11 @@ export default function SignIn() {
             outAnimation && " fade-out"
           )}
         >
-          This sign in route is for{' '}
+          This sign in route is for{" "}
           <span className="text-primary cursor-pointer">
             Magic Post&apos;s Staff Only
-          </span>. If you are not a staff member please go to the back to{' '}
+          </span>
+          . If you are not a staff member please go to the back to{" "}
           <Link href={"/"} className="text-primary cursor-pointer">
             Main Page
           </Link>
