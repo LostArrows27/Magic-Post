@@ -260,52 +260,56 @@ type Ward = {
   LOCATION_CODE: string;
 };
 
+// const Page = () => {
+//   const [supabase, setSupabase] = useState(() => {
+//     return createClient(
+//       process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+//       process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY as string
+//     );
+//   });
+
+//   // TODO: fake user data (based on user_metadata)
+//   // TODO: add fake user data to profiles table (based on user_metadata)
+//   // TODO: update location managers => QUERY SQL
+//   // TODO: add type to profiles
+//   const handleClick = async () => {
+//     const {
+//       data: { users },
+//       error,
+//     } = await supabase.auth.admin.listUsers({
+//       page: 1,
+//       perPage: 1000,
+//     });
+
+//     // delete all users
+//     let admin = 0;
+//     let admin_GD = 0;
+//     let admin_TK = 0;
+//     for (let user of users) {
+//       if (user.user_metadata?.type === "leader") {
+//         admin++;
+//       }
+//       if (user.user_metadata?.type === "admin_GD") {
+//         admin_GD++;
+//       }
+//       if (user.user_metadata?.type === "admin_TK") {
+//         admin_TK++;
+//       }
+//     }
+
+//     console.log("admin", admin);
+//     console.log("admin_GD", admin_GD);
+//     console.log("admin_TK", admin_TK);
+//   };
+//   return (
+//     <div className="w-screen h-screen flex justify-center items-center">
+//       <button onClick={handleClick}>Click me</button>
+//     </div>
+//   );
+// };
+
 const Page = () => {
-  const [supabase, setSupabase] = useState(() => {
-    return createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-      process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY as string
-    );
-  });
-
-  // TODO: fake user data (based on user_metadata)
-  // TODO: add fake user data to profiles table (based on user_metadata)
-  // TODO: update location managers => QUERY SQL
-  // TODO: add type to profiles
-  const handleClick = async () => {
-    const {
-      data: { users },
-      error,
-    } = await supabase.auth.admin.listUsers({
-      page: 1,
-      perPage: 1000,
-    });
-
-    // delete all users
-    let admin = 0;
-    let admin_GD = 0;
-    let admin_TK = 0;
-    for (let user of users) {
-      if (user.user_metadata?.type === "leader") {
-        admin++;
-      }
-      if (user.user_metadata?.type === "admin_GD") {
-        admin_GD++;
-      }
-      if (user.user_metadata?.type === "admin_TK") {
-        admin_TK++;
-      }
-    }
-
-    console.log("admin", admin);
-    console.log("admin_GD", admin_GD);
-    console.log("admin_TK", admin_TK);
-  };
-  return (
-    <div className="w-screen h-screen flex justify-center items-center">
-      <button onClick={handleClick}>Click me</button>
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Page;
