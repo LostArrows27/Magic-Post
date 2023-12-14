@@ -1,4 +1,6 @@
-export default async function DashBoardPage() {
+
+export default async  function DashBoardPage() {
+   
     return (
       <div>
         <h1>DashBoardPage</h1>

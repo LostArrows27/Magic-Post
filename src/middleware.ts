@@ -30,6 +30,9 @@ export async function middleware(req: NextRequest) {
       pathname !== "/office/transfers" &&
       pathname !== "/"
     ) {
+      if(user.user_metadata.type === 'tk_admin' && pathname === '/office/orders') {
+        return NextResponse.redirect(new URL(`/office/transfers`, req.url))
+      } 
       return NextResponse.redirect(new URL(`/office/dashboard`, req.url));
     } else if (
       user.user_metadata.type === "tk_staff" &&
