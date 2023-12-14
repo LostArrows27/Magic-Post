@@ -49,7 +49,7 @@ export default function SignIn() {
       if (searchParams.get("redirect")) {
         router.push(searchParams.get("redirect") as string);
       } else {
-        router.push("/");
+        router.push("/office");
       }
     }
   }
@@ -64,7 +64,7 @@ export default function SignIn() {
         sizes="100vw"
         priority={true}
         quality={100}
-        className="absolute  w-screen min-w-[1440px] h-screen min-h-[760px]  top-0 select-none pointer-events-none"
+        className="absolute object-cover w-screen min-w-[1440px] h-screen min-h-[760px]  top-0 select-none pointer-events-none"
       />
       <div className="flex flex-col items-center  h-full justify-center  w-full overflow-y-scroll  ">
         <Tilt

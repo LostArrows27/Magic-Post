@@ -1,16 +1,10 @@
-import { User } from "@supabase/auth-helpers-nextjs";
 import { createContext, useContext, useEffect, useState } from "react";
 import {
   useSessionContext,
   useUser as useSupaUser,
 } from "@supabase/auth-helpers-react";
-
-
-type UserContextType = {
-  accessToken: string | null;
-  user: User | null;
-  isLoading: boolean;
-};
+import { UserContextType, UserSystem } from "@/types/user-context-type";
+import { Staff } from "@/types/supabase-table-type";
 
 export const UserContext = createContext<UserContextType | undefined>(
   undefined
@@ -20,7 +14,6 @@ export interface Props {
   [propName: string]: any;
 }
 
-
 export const MyUserContextProvider = (props: Props) => {
   const {
     session,
@@ -28,18 +21,35 @@ export const MyUserContextProvider = (props: Props) => {
     supabaseClient: supabase,
   } = useSessionContext();
 
-  const user = useSupaUser();
+  const user = useSupaUser() as UserSystem | null;
+
   const accessToken = session?.access_token ?? null;
   const [isLoadingData, setIsLoadingData] = useState(false);
+  const [userDetails, setUserDetails] = useState<Staff | null>(null);
 
   useEffect(() => {
-   //TODO: fetch userDetails
- 
+    const fetchUser = async () => {
+      if (user && !isLoadingData && !userDetails) {
+        setIsLoadingData(true);
+        const userDetail = await supabase
+          .from("staffs")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+        setUserDetails({
+          ...userDetail.data,
+        });
+        setIsLoadingData(false);
+      }
+    };
+
+    fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, isLoadingUser]);
 
   const value: UserContextType = {
     accessToken,
+    userDetails,
     user,
     isLoading: isLoadingData,
   };
