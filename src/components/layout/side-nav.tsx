@@ -109,8 +109,8 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
                         }}
                         className={cn(
                             buttonVariants({ variant: "ghost" }),
-                            "group relative flex h-12 justify-start",
-                            path === item.href && "font-bold hover:bg-muted"
+                            "group relative flex h-12 justify-start hover:bg-neutral-200",
+                            path === item.href && "bg-neutral-200 font-bold hover:bg-neutral-300"
                         )}
                     >
                         <item.icon className={cn("h-5 w-5", item.color)} />
