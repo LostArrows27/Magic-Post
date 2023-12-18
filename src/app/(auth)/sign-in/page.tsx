@@ -28,7 +28,7 @@ export default function SignIn() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string>("");
   const [outAnimation, setOutAnimation] = useState<boolean>(false);
-  const supabase = createClientComponentClient();
+  // const supabase = createClientComponentClient<Database>();
 
   const searchParams = useSearchParams();
 
