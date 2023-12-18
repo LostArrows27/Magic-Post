@@ -3,7 +3,6 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Tilt from "react-parallax-tilt";
-import { BsGoogle, BsDiscord } from "react-icons/bs";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import {
   Form,
@@ -16,7 +15,6 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { SignInSchema } from "@/schema/auth-schema";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
