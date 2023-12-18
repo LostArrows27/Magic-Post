@@ -53,7 +53,7 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
                             <AccordionTrigger
                                 className={cn(
                                     buttonVariants({ variant: "ghost" }),
-                                    "group relative flex h-12 justify-between px-4 py-2 text-base duration-200 hover:bg-muted hover:no-underline"
+                                    "group relative flex h-12 justify-between px-4 py-2 text-base duration-200 hover:bg-neutral-200 hover:no-underline"
                                 )}
                             >
                                 <div>
@@ -82,11 +82,11 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
                                         }}
                                         className={cn(
                                             buttonVariants({ variant: "ghost" }),
-                                            "group flex h-12 justify-start gap-x-3",
-                                            path === child.href && "font-bold hover:bg-muted"
+                                            "group flex h-12 justify-start gap-x-3 hover:bg-neutral-200",
+                                            path === child.href && "bg-neutral-200 font-bold hover:bg-neutral-300"
                                         )}
                                     >
-                                        <item.icon className={cn("h-5 w-5", child.color)} />
+                                        <child.icon className={cn("h-5 w-5", child.color)} />
                                         <div
                                             className={cn(
                                                 "text-base duration-200",

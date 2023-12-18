@@ -1,12 +1,33 @@
 import { NavItem } from "@/types/nav-item";
-import { LayoutDashboard, UserPlus, Users, PlusCircle, GanttChartSquare, Box, Boxes } from "lucide-react";
+import { LayoutDashboard, UserPlus, Users, PlusCircle, GanttChartSquare, Package, Boxes, ListTodo, Cylinder, Database } from "lucide-react";
 
 export const NavItems: NavItem[] = [
     {
-        title: "Dashboard",
+        title: "Master",
         icon: LayoutDashboard,
         href: "/office",
         color: "text-purple-500",
+        isChidren: true,
+        children: [
+            {
+                title: "Dashboard",
+                icon: ListTodo,
+                href: "/office/dashboard",
+                color: "text-pink-500",
+            },
+            {
+                title: "Central Hub",
+                icon: Database,
+                color: "text-pink-500",
+                href: "/office/centralhub",
+            },
+            {
+                title: "Hub",
+                icon: Cylinder,
+                color: "text-pink-500",
+                href: "/office/hub",
+            },
+        ],
     },
     {
         title: "New Order",
@@ -22,7 +43,7 @@ export const NavItems: NavItem[] = [
     },
     {
         title: "New Transfer",
-        icon: Box,
+        icon: Package,
         href: "/office/newtransfer",
         color: "text-orange-500",
     },
@@ -44,31 +65,4 @@ export const NavItems: NavItem[] = [
         href: "/office/managestaff",
         color: "text-sky-500",
     },
-    // {
-    //     title: "TodoList",
-    //     icon: ListTodo,
-    //     href: "/todolist",
-    //     color: "text-orange-500",
-    //     isChidren: true,
-    //     children: [
-    //         {
-    //             title: "children1",
-    //             icon: ListTodo,
-    //             color: "text-pink-500",
-    //             href: "/todolist/children1",
-    //         },
-    //         {
-    //             title: "children2",
-    //             icon: ListTodo,
-    //             color: "text-pink-500",
-    //             href: "/todolist/children2",
-    //         },
-    //         {
-    //             title: "children3",
-    //             icon: ListTodo,
-    //             color: "text-pink-500",
-    //             href: "/todolist/children3",
-    //         },
-    //     ],
-    // },
 ];
