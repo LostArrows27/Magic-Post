@@ -19,7 +19,7 @@ interface LocationStore {
   fetchLocations: (type: string, supabase: SupabaseClient) => Promise<void>;
 }
 
-export const useLocationStore = create<LocationStore>((set) => ({
+export const useLocation = create<LocationStore>((set) => ({
   locations: [],
   isLoading: false,
   isError: false,

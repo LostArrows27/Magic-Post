@@ -24,7 +24,11 @@ export async function middleware(req: NextRequest) {
         user.user_metadata.type === "gd_admin" ||
         user.user_metadata.type === "tk_admin") &&
       pathname !== "/office/dashboard" &&
-      pathname !== "/office/staff" &&
+      // temporary for testing
+      pathname !== "/office/centralhub" &&
+      pathname !== "/office/hub" &&
+      // temporary for testing
+      pathname !== "/office/staffs" &&
       pathname !== "/office/new-staff" &&
       pathname !== "/office/orders" &&
       pathname !== "/office/transfers" &&

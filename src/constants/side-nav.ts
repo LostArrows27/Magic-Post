@@ -32,37 +32,37 @@ export const NavItems: NavItem[] = [
     {
         title: "New Order",
         icon: PlusCircle,
-        href: "/office/neworder",
+        href: "/office/new-order",
         color: "text-green-500",
     },
     {
         title: "Manage Orders",
         icon: GanttChartSquare,
-        href: "/office/manageorder",
+        href: "/office/orders",
         color: "text-green-500",
     },
     {
         title: "New Transfer",
         icon: Package,
-        href: "/office/newtransfer",
+        href: "/office/new-transfer",
         color: "text-orange-500",
     },
     {
         title: "Manage Transfers",
         icon: Boxes,
-        href: "/office/managetransfer",
+        href: "/office/transfers",
         color: "text-orange-500",
     },
     {
         title: "New Staff",
         icon: UserPlus,
-        href: "/office/staff",
+        href: "/office/new-staff",
         color: "text-sky-500",
     },
     {
         title: "Manage Staffs",
         icon: Users,
-        href: "/office/managestaff",
+        href: "/office/staffs",
         color: "text-sky-500",
     },
 ];
