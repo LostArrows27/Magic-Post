@@ -7,12 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
 import { OverviewLineChart } from "@/components/dashboard/overview-linechart"
 import { OverviewCard } from "@/components/dashboard/overview-card"
 import { OverviewItems } from "@/constants/overview-card"
@@ -20,7 +14,7 @@ import { OverviewPieChart } from "@/components/dashboard/overview-piechart"
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "Example dashboard app built using the components.",
+  description: "Master dashboard",
 }
 
 export default function DashboardPage() {
@@ -34,10 +28,10 @@ export default function DashboardPage() {
               <Button>Download</Button>
             </div>
           </div>
-          <Tabs defaultValue="overview" className="space-y-4">
+          <div defaultValue="overview" className="space-y-4">
             {/* Tab List */}
             {/* Tab content */}
-            <TabsContent value="overview" className="space-y-4">
+            <div  className="space-y-4">
               {/* Overview Card */}
               <OverviewCard items={OverviewItems}/>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
@@ -74,8 +68,8 @@ export default function DashboardPage() {
                   </CardContent>
                 </Card>
               </div>
-            </TabsContent>
-          </Tabs>
+            </div>
+          </div>
         </div>
       </div>
     </>
