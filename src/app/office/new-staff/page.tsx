@@ -1,4 +1,4 @@
-import NewStaffForm from "@/components/new-staff-form";
+import NewStaffForm from "@/components/new-staff-ui/new-staff-form";
 
 export default async function NewStaffPage() {
   return (

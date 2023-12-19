@@ -37,22 +37,22 @@ import { toast } from "sonner";
 import axios from "axios";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useUser } from "@/hooks/useUser";
+import { useNewStaffAccountModal } from "@/hooks/useNewStaffAccountModal";
 export type tNewStaffSchema = z.infer<typeof NewStaffSchema>;
 export default function NewStaffForm() {
   const [serverError, setServerError] = useState<string>("");
+  const { onOpen } = useNewStaffAccountModal();
   const { userDetails } = useUser();
   const form = useForm<tNewStaffSchema>({
     resolver: zodResolver(NewStaffSchema),
-    defaultValues:{
-        dob:undefined,
-        full_name:"",
-        home_town:"",
-        gender:"",
-        phone_number:""
-    }
+    defaultValues: {
+      dob: undefined,
+      full_name: "",
+      home_town: "",
+      gender: "",
+      phone_number: "",
+    },
   });
-  const { supabaseClient } = useSessionContext();
-
   async function onSubmit(values: tNewStaffSchema) {
     //format the date to YYYY-MM-DD
 
@@ -65,6 +65,7 @@ export default function NewStaffForm() {
         setServerError(res.data.error);
       }
     } else {
+      onOpen({ email: res.data.data.email, password: res.data.data.password });
       toast.success(
         `Create a ${userDetails?.role.split("_")[0]}_staff account success`
       );
@@ -74,9 +75,8 @@ export default function NewStaffForm() {
         home_town: "",
         phone_number: "",
         dob: undefined,
-        gender: ""
+        gender: "",
       });
-
 
       setServerError("");
     }
@@ -93,7 +93,13 @@ export default function NewStaffForm() {
         <p className="italic text-base text-center text-muted-foreground !mb-10">
           Fill in the form below the add new Staff
         </p>
-
+        {/* <Button
+          onClick={() => {
+            onOpen({ email: "faesfsef", password: "fsefsef" });
+          }}
+        >
+          Hello
+        </Button> */}
         <FormField
           control={form.control}
           name="full_name"

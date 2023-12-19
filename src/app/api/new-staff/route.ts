@@ -2,7 +2,7 @@ import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { Database } from "@/types/supabase-type";
-import { tNewStaffSchema } from "@/components/new-staff-form";
+import { tNewStaffSchema } from "@/components/new-staff-ui/new-staff-form";
 import { NewStaffSchema } from "@/schema/staff-schema";
 import { createClient } from "@supabase/supabase-js";
 import { format } from "date-fns";
@@ -31,17 +31,6 @@ export async function POST(request: Request) {
   }
 
   const supabaseRouteHandler = createRouteHandlerClient<Database>({cookies})
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-    process.env.SUPABASE_SERVICE_ROLE_KEY as string,
-    {
-      auth: {
-        autoRefreshToken: false, // All Supabase access is from server, so no need to refresh the token
-        detectSessionInUrl: false, // We are not using OAuth, so we don't need this. Also, we are manually "detecting" the session in the server-side code
-        persistSession: false, // All our access is from server, so no need to persist the session to browser's local storage
-      },
-    }
-  );
 
   const full_name = formData.full_name;
   const phone_number = formData.phone_number;
@@ -71,7 +60,7 @@ export async function POST(request: Request) {
   }
 
   //check if this user has been created
-  const { data: staff } = await supabase
+  const { data: staff } = await supabaseRouteHandler
     .from("staffs")
     .select("*")
     .eq("phone_number", phone_number)
@@ -83,7 +72,7 @@ export async function POST(request: Request) {
   }
 
   //get the order of this staff
-  const { count } = await supabase
+  const { count } = await supabaseRouteHandler
     .from("staffs")
     .select("id", { count: "exact" })
     .eq("work_place_id", workplaceId)
@@ -112,6 +101,17 @@ export async function POST(request: Request) {
     userData.user_metadata.district = data.user.user_metadata.district;
   }
   
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+    process.env.SUPABASE_SERVICE_ROLE_KEY as string,
+    {
+      auth: {
+        autoRefreshToken: false, // All Supabase access is from server, so no need to refresh the token
+        detectSessionInUrl: false, // We are not using OAuth, so we don't need this. Also, we are manually "detecting" the session in the server-side code
+        persistSession: false, // All our access is from server, so no need to persist the session to browser's local storage
+      },
+    }
+  );
   const res = await supabase.auth.admin.createUser(userData);
 
   const {error:profileError} = await supabase.from("staffs").insert({
@@ -125,5 +125,5 @@ export async function POST(request: Request) {
     work_place_id: workplaceId,
   });
 
-  return NextResponse.json({ data: res.data, error: res.error?.message || profileError?.message });
+  return NextResponse.json({ data: {...res.data,email,password }, error: res.error?.message || profileError?.message });
 }
