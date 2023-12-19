@@ -24,13 +24,13 @@ import { useOrderFormProgress } from "@/hooks/useOrderFormProgress";
 
 type Form = UseFormReturn<
   {
-    address: string;
     full_name: string;
     phone_number: string;
+    address: string;
     province_id: string;
     district_id: string;
-    ward_id: string;
     email?: string | undefined;
+    ward_id?: string | undefined;
     subward_id?: string | undefined;
   },
   any,
@@ -178,6 +178,7 @@ const AddressFormField = ({
                   placeholder="Enter your address (road, subward, ward, district, city)"
                   className="h-12 rounded-xl pr-12"
                   {...field}
+                  value={field.value ?? ""}
                 ></Input>
               </FormControl>
             </div>

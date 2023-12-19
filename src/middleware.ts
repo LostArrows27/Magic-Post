@@ -10,9 +10,7 @@ export async function middleware(req: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  console.log("refetch user", user?.user_metadata.type);
   const { pathname } = new URL(req.url);
-
   if (!user && pathname !== "/sign-in" && pathname !== "/") {
     return NextResponse.redirect(
       new URL(`/sign-in?redirect=${encodeURIComponent(pathname)}`, req.url)
@@ -32,14 +30,18 @@ export async function middleware(req: NextRequest) {
     } else if (
       user.user_metadata.type === "tk_admin" &&
       pathname !== "/office/transfers" &&
-      pathname !== "/"
+      pathname !== "/" &&
+      pathname !== "/office/new-staff" &&
+      pathname !== "/office/staffs"
     ) {
       return NextResponse.redirect(new URL(`/office/transfers`, req.url));
     } else if (
       user.user_metadata.type === "gd_admin" &&
       pathname !== "/office/transfers" &&
       pathname !== "/office/orders" &&
-      pathname !== "/"
+      pathname !== "/" &&
+      pathname !== "/office/new-staff" &&
+      pathname !== "/office/staffs"
     ) {
       return NextResponse.redirect(new URL(`/office/orders`, req.url));
     } else if (
@@ -60,7 +62,6 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL(`/office/orders`, req.url));
     }
   }
-
   await supabase.auth.getSession();
   return res;
 }

@@ -58,13 +58,6 @@ const FirstForm = () => {
   }, [form, sender, currentStep]);
 
   const onSubmit = async (values: OrderFormType) => {
-    if (values.ward_id === "" || values.district_id === "") {
-      form.setError("ward_id", {
-        type: "manual",
-        message: "Please select a ward",
-      });
-    }
-
     if (values.district_id === "") {
       form.setError("district_id", {
         type: "manual",
@@ -72,12 +65,13 @@ const FirstForm = () => {
       });
     }
 
-    if (values.district_id !== "" && values.ward_id !== "") {
+    if (values.district_id !== "") {
       try {
         setLoading(true);
 
         const addedData = {
           ...values,
+          ward_id: values.ward_id === "" ? null : values.ward_id,
           subward_id: values.subward_id === "" ? null : values.subward_id,
           email: values.email === "" ? null : values.email,
           address_meta_data: {
@@ -136,6 +130,7 @@ const FirstForm = () => {
                     placeholder="Enter phone number to auto fill-in information"
                     className="h-12 rounded-xl pl-12"
                     {...field}
+                    value={field.value ?? ""}
                   ></Input>
                 </FormControl>
               </div>
@@ -156,6 +151,7 @@ const FirstForm = () => {
                     placeholder="Enter your full name"
                     className="h-12 rounded-xl"
                     {...field}
+                    value={field.value ?? ""}
                   ></Input>
                 </FormControl>
                 <FormMessage />
@@ -174,6 +170,7 @@ const FirstForm = () => {
                     placeholder="Enter your email address"
                     className="h-12 rounded-xl"
                     {...field}
+                    value={field.value ?? ""}
                   ></Input>
                 </FormControl>
                 <FormMessage />

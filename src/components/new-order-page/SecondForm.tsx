@@ -50,23 +50,12 @@ const SecondForm = () => {
   const { setCurrentStep } = useOrderFormProgress();
 
   const onSubmit = async (values: OrderFormType) => {
-    if (values.ward_id === "" || values.district_id === "") {
-      form.setError("ward_id", {
-        type: "manual",
-        message: "Please select a ward",
-      });
-    }
-
     if (values.district_id === "") {
       form.setError("district_id", {
         type: "manual",
         message: "Please select a district",
       });
     }
-
-    console.log(sender?.phone_number);
-
-    console.log(values.phone_number);
 
     if (sender?.phone_number === values.phone_number) {
       form.setError("phone_number", {
@@ -77,7 +66,6 @@ const SecondForm = () => {
 
     if (
       values.district_id !== "" &&
-      values.ward_id !== "" &&
       sender?.phone_number !== values.phone_number
     ) {
       try {
@@ -85,6 +73,7 @@ const SecondForm = () => {
 
         const addedData = {
           ...values,
+          ward_id: values.ward_id === "" ? null : values.ward_id,
           subward_id: values.subward_id === "" ? null : values.subward_id,
           email: values.email === "" ? null : values.email,
           address_meta_data: {
@@ -143,6 +132,7 @@ const SecondForm = () => {
                     placeholder="Enter phone number to auto fill-in information"
                     className="h-12 rounded-xl pl-12"
                     {...field}
+                    value={field.value ?? ""}
                   ></Input>
                 </FormControl>
               </div>
@@ -163,6 +153,7 @@ const SecondForm = () => {
                     placeholder="Enter your full name"
                     className="h-12 rounded-xl"
                     {...field}
+                    value={field.value ?? ""}
                   ></Input>
                 </FormControl>
                 <FormMessage />
@@ -181,6 +172,7 @@ const SecondForm = () => {
                     placeholder="Enter your email address"
                     className="h-12 rounded-xl"
                     {...field}
+                    value={field.value ?? ""}
                   ></Input>
                 </FormControl>
                 <FormMessage />

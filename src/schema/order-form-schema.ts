@@ -39,9 +39,11 @@ export const orderFormSchema = z.object({
   district_id: z.string({
     required_error: "Please select a district",
   }),
-  ward_id: z.string({
-    required_error: "Please select a subward",
-  }),
+  ward_id: z
+    .string({
+      required_error: "Please select a subward",
+    })
+    .optional(),
   subward_id: z
     .string({
       required_error: "Please select a subward",

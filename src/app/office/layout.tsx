@@ -12,18 +12,15 @@ export default async function RootLayout({
 }) {
   return (
     <VietnamGeographyProvider>
-      <ModalProviders />
-
       <SupabaseProvider>
         <UserProvider>
+          <ModalProviders />
           {/* <main className="w-full h-full">{children}</main> */}
           <Header />
           <div className="flex h-screen overflow-hidden">
             <Sidebar />
-            <main className="flex-1 overflow-y-auto bg-muted overflow-x-hidden p-9 pt-[100px]">
-              <div className="w-full bg-white rounded-lg box-content">
-                {children}
-              </div>
+            <main className="flex-1 overflow-y-auto overflow-x-hidden pt-16">
+              {children}
             </main>
           </div>
         </UserProvider>
