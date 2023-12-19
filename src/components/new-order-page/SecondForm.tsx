@@ -14,15 +14,26 @@ import ImageNew from "../new-image/Image";
 import { useVietNamGeography } from "@/hooks/useVietNamGeography";
 import AddressFormField from "./AddressFormField";
 import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Subward } from "@/types/geometry-type";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import { toast } from "sonner";
 import { AiOutlineLoading } from "react-icons/ai";
 import { useOrderFormProgress } from "@/hooks/useOrderFormProgress";
 import { useOrderFormData } from "@/hooks/useOrderFormData";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
-const FirstForm = () => {
+const SecondForm = () => {
   const form = useForm<OrderFormType>({
     resolver: zodResolver(orderFormSchema),
   });
@@ -32,30 +43,11 @@ const FirstForm = () => {
 
   const { district, ward, province } = useVietNamGeography();
 
-  const { setSender, sender } = useOrderFormData();
+  const { setReceiver, sender } = useOrderFormData();
 
   const { supabaseClient } = useSessionContext();
 
-  const { setCurrentStep, currentStep } = useOrderFormProgress();
-
-  useEffect(() => {
-    if (sender && currentStep === 1) {
-      form.setValue("phone_number", sender.phone_number);
-      form.setValue("full_name", sender.full_name);
-      if (sender.email) {
-        form.setValue("email", sender.email);
-      }
-      form.setValue("province_id", sender.province_id);
-      form.setValue("district_id", sender.district_id);
-      form.setValue("ward_id", sender.ward_id);
-      if (sender.subward_id) {
-        form.setValue("subward_id", sender.subward_id);
-      }
-      if (sender.address) {
-        form.setValue("address", sender.address);
-      }
-    }
-  }, [form, sender, currentStep]);
+  const { setCurrentStep } = useOrderFormProgress();
 
   const onSubmit = async (values: OrderFormType) => {
     if (values.ward_id === "" || values.district_id === "") {
@@ -72,7 +64,22 @@ const FirstForm = () => {
       });
     }
 
-    if (values.district_id !== "" && values.ward_id !== "") {
+    console.log(sender?.phone_number);
+
+    console.log(values.phone_number);
+
+    if (sender?.phone_number === values.phone_number) {
+      form.setError("phone_number", {
+        type: "manual",
+        message: "Sender and receiver phone number cannot be the same",
+      });
+    }
+
+    if (
+      values.district_id !== "" &&
+      values.ward_id !== "" &&
+      sender?.phone_number !== values.phone_number
+    ) {
       try {
         setLoading(true);
 
@@ -103,8 +110,8 @@ const FirstForm = () => {
           throw error;
         }
         setLoading(false);
-        setSender(data![0]);
-        setCurrentStep(2);
+        setReceiver(data![0]);
+        setCurrentStep(3);
         toast.success("Sender information saved");
       } catch (error: any) {
         toast.error(error.message);
@@ -191,24 +198,55 @@ const FirstForm = () => {
           form={form}
         />
         <div className="w-full mt-10">
-          <Button
-            disabled={loading}
-            className="float-right w-[120px]"
-            size={"lg"}
-          >
-            {loading ? (
-              <>
-                <span>Next</span>
-                <AiOutlineLoading className="animate-spin text-base ml-3" />
-              </>
-            ) : (
-              "Next"
-            )}
-          </Button>
+          <div className="flex items-center gap-x-4 float-right">
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button
+                  type="button"
+                  disabled={loading}
+                  variant={"outline"}
+                  className="w-[120px]"
+                  size={"lg"}
+                >
+                  Previous
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Your changes will not be saved.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={(a) => {
+                      a.preventDefault();
+                      setCurrentStep(1);
+                    }}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+
+            <Button disabled={loading} className=" w-[120px]" size={"lg"}>
+              {loading ? (
+                <>
+                  <span>Next</span>
+                  <AiOutlineLoading className="animate-spin text-base ml-3" />
+                </>
+              ) : (
+                "Next"
+              )}
+            </Button>
+          </div>
         </div>
       </form>
     </Form>
   );
 };
 
-export default FirstForm;
+export default SecondForm;

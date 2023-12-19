@@ -14,11 +14,13 @@ import {
   SelectValue,
   SelectContent,
 } from "@/components/ui/select";
-import { useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { District, Province, Subward, Ward } from "@/types/geometry-type";
 import { UseFormReturn } from "react-hook-form";
 import { getSubwardBasedOnWard } from "@/actions/get-subward-based-on-ward";
 import { AiOutlineLoading } from "react-icons/ai";
+import { useOrderFormData } from "@/hooks/useOrderFormData";
+import { useOrderFormProgress } from "@/hooks/useOrderFormProgress";
 
 type Form = UseFormReturn<
   {
@@ -40,14 +42,23 @@ const AddressFormField = ({
   district,
   ward,
   province,
+  subward,
+  setSubward,
+  loading: loadingForm,
 }: {
   form: Form;
   district: District[] | null;
   ward: Ward[] | null;
   province: Province[] | null;
+  subward: Subward[] | null;
+  setSubward: Dispatch<SetStateAction<Subward[] | null>>;
+  loading: boolean;
 }) => {
   const [loading, setLoading] = useState(true);
-  const [subward, setSubward] = useState<Subward[] | null>(null);
+
+  const { sender, receiver } = useOrderFormData();
+
+  const { currentStep } = useOrderFormProgress();
 
   const selectedProvinceId = form.watch("province_id");
 
@@ -56,6 +67,26 @@ const AddressFormField = ({
   const selectedWardId = form.watch("ward_id");
 
   const selectedSubwardId = form.watch("subward_id");
+
+  useEffect(() => {
+    if (currentStep === 1 && sender) {
+      form.setValue("province_id", sender?.province_id);
+      form.setValue("district_id", sender?.district_id);
+      form.setValue("ward_id", sender?.ward_id);
+      if (sender?.subward_id) {
+        form.setValue("subward_id", sender?.subward_id);
+      }
+    }
+
+    if (currentStep === 2 && receiver) {
+      form.setValue("province_id", receiver?.province_id);
+      form.setValue("district_id", receiver?.district_id);
+      form.setValue("ward_id", receiver?.ward_id);
+      if (receiver?.subward_id) {
+        form.setValue("subward_id", receiver?.subward_id);
+      }
+    }
+  }, [sender, receiver, currentStep, form]);
 
   const districtData = useMemo(() => {
     if (selectedDistrictId) {
@@ -81,26 +112,38 @@ const AddressFormField = ({
   }, [selectedSubwardId, subward]);
 
   useEffect(() => {
-    if (selectedProvinceId) {
+    if (
+      selectedProvinceId &&
+      ((!sender && currentStep === 1) || (!receiver && currentStep === 2))
+    ) {
       form.setValue("district_id", "");
       form.setValue("ward_id", "");
       form.setValue("subward_id", "");
       setSubward(null);
     }
-  }, [form, selectedProvinceId]);
+  }, [currentStep, form, receiver, selectedProvinceId, sender, setSubward]);
 
   useEffect(() => {
-    if (selectedDistrictId) {
+    if (
+      selectedDistrictId &&
+      ((!sender && currentStep === 1) || (!receiver && currentStep === 2))
+    ) {
       form.setValue("ward_id", "");
       form.setValue("subward_id", "");
       setSubward(null);
     }
-  }, [form, selectedDistrictId]);
+  }, [currentStep, form, receiver, selectedDistrictId, sender, setSubward]);
 
   useEffect(() => {
     const fetchSubWard = async () => {
       try {
-        form.setValue("subward_id", "");
+        if (
+          (!sender && currentStep === 1) ||
+          (!receiver && currentStep === 2)
+        ) {
+          form.setValue("subward_id", "");
+        }
+
         setSubward(null);
         setLoading(true);
         const wardList = await getSubwardBasedOnWard(wardData?.LOCATION_CODE!);
@@ -113,15 +156,16 @@ const AddressFormField = ({
       }
     };
 
-    if (selectedWardId) {
+    if (selectedWardId && currentStep < 3) {
       fetchSubWard();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form, selectedWardId]);
+  }, [form, selectedWardId, currentStep]);
 
   return (
     <>
       <FormField
+        disabled={loadingForm}
         control={form.control}
         name="address"
         render={({ field }) => (
@@ -143,14 +187,22 @@ const AddressFormField = ({
       />
       <div className="flex-1 my-4 flex justify-between gap-x-4">
         <FormField
+          disabled={loadingForm}
           control={form.control}
           name="province_id"
           render={({ field }) => (
             <FormItem className="flex-1 space-y-3">
-              <Select onValueChange={field.onChange}>
+              <Select disabled={loadingForm} onValueChange={field.onChange}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Choose province name" />
+                    <span>
+                      {selectedProvinceId && province
+                        ? province?.find(
+                            (value) =>
+                              value.PROVINCE_ID + "" === selectedProvinceId
+                          )?.PROVINCE_NAME
+                        : "Choose province name"}
+                    </span>
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -170,12 +222,13 @@ const AddressFormField = ({
           )}
         />
         <FormField
+          disabled={loadingForm}
           control={form.control}
           name="district_id"
           render={({ field }) => {
             return (
               <FormItem className="flex-1 space-y-3">
-                <Select onValueChange={field.onChange}>
+                <Select disabled={loadingForm} onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>
                       <span>
@@ -211,12 +264,13 @@ const AddressFormField = ({
       </div>
       <div className="flex-1 flex justify-between gap-x-4">
         <FormField
+          disabled={loadingForm}
           control={form.control}
           name="ward_id"
           render={({ field }) => {
             return (
               <FormItem className="flex-1 space-y-3">
-                <Select onValueChange={field.onChange}>
+                <Select disabled={loadingForm} onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>
                       <span>
@@ -252,11 +306,12 @@ const AddressFormField = ({
         />
         <FormField
           control={form.control}
+          disabled={loadingForm}
           name="subward_id"
           render={({ field }) => {
             return (
               <FormItem className="flex-1 space-y-3">
-                <Select onValueChange={field.onChange}>
+                <Select disabled={loadingForm} onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>
                       <span>

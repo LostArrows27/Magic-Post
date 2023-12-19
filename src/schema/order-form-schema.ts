@@ -23,7 +23,7 @@ export const orderFormSchema = z.object({
       required_error: "Phone number is required",
     })
     .length(10, {
-      message: "Phone number is required",
+      message: "Phone number must be 10 digits",
     }),
   email: z.string().email().optional(),
   address: z

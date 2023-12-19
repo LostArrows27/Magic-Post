@@ -43,7 +43,6 @@ export async function middleware(req: NextRequest) {
   //   ) {
   //     return NextResponse.redirect(new URL(`/office/transfers`, req.url));
   //   } else if (
-  //     // TODO: remove
   //     user.user_metadata.type === "gd_staff" &&
   //     pathname !== "/office/new-transfer" &&
   //     pathname !== "/office/transfers" &&
