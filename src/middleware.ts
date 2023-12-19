@@ -32,7 +32,7 @@ export async function middleware(req: NextRequest) {
     } else if (
       user.user_metadata.type === "tk_admin" &&
       pathname !== "/office/transfers" &&
-      pathname !== "/office/new-staffs" &&
+      pathname !== "/office/new-staff" &&
       pathname !== "/office/staffs" &&
       pathname !== "/"
     ) {
@@ -41,7 +41,7 @@ export async function middleware(req: NextRequest) {
       user.user_metadata.type === "gd_admin" &&
       pathname !== "/office/transfers" &&
       pathname !== "/office/orders" &&
-      pathname !== "/office/new-staffs" &&
+      pathname !== "/office/new-staff" &&
       pathname !== "/office/staffs" &&
       pathname !== "/"
     ) {
