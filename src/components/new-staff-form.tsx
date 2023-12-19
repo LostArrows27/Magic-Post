@@ -10,7 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -36,9 +36,11 @@ import { useState } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 import { useSessionContext } from "@supabase/auth-helpers-react";
+import { useUser } from "@/hooks/useUser";
 export type tNewStaffSchema = z.infer<typeof NewStaffSchema>;
 export default function NewStaffForm() {
   const [serverError, setServerError] = useState<string>("");
+  const { userDetails } = useUser();
   const form = useForm<tNewStaffSchema>({
     resolver: zodResolver(NewStaffSchema),
   });
@@ -46,12 +48,8 @@ export default function NewStaffForm() {
 
   async function onSubmit(values: tNewStaffSchema) {
     //format the date to YYYY-MM-DD
-    const formData = {
-      ...values,
-    };
- 
-    console.log(typeof values.dob);
-    const res = await axios.post("/api/new-staff", formData);
+
+    const res = await axios.post("/api/new-staff", values);
 
     if (res.data.error) {
       if (res.data.error === "Invalid login credentials") {
@@ -60,14 +58,19 @@ export default function NewStaffForm() {
         setServerError(res.data.error);
       }
     } else {
-      toast.success("Login Success");
+      toast.success(
+        `Create a ${userDetails?.role.split("_")[0]}_staff account success`
+      );
+      //reset the form
+      form.reset();
+      setServerError("");
     }
   }
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn("w-[600px]  space-y-4 mb-10")}
+        className={cn("w-[600px]  space-y-4 ")}
       >
         <h1 className="super text-4xl text-center  font-bold tracking-wider">
           New Staff
@@ -107,7 +110,7 @@ export default function NewStaffForm() {
                       )}
                     >
                       {field.value ? (
-                        format(new Date(field.value), "PPP")
+                        format(field.value, "PPP")
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -201,25 +204,6 @@ export default function NewStaffForm() {
             </FormItem>
           )}
         />
-
-        {/* <FormField
-            control={form.control}
-            name=""
-            render={({ field }) => (
-              <FormItem className="h-[70px]">
-                <FormControl>
-                  <Input
-                    placeholder="Password"
-                    type="password"
-                    {...field}
-                    className="bg-transparent text-base tracking-wider text-primary placeholder:text-primary border-primary  border-t-0 border-l-0 border-r-0  rounded-none focus-visible:!ring-offset-0 focus-visible:border-b-primary focus-visible:placeholder:text-primary  focus-visible:!ring-0"
-                  />
-                </FormControl>
-                <FormMessage className="text-red-500" />
-              </FormItem>
-            )}
-          /> */}
-
         {serverError && (
           <p className=" mt-0 font-bold tracking-wider text-center text-red-500">
             {serverError}
@@ -228,7 +212,7 @@ export default function NewStaffForm() {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
-          className="w-full !mt-10 font-bold uppercase tracking-widest flex items-centers "
+          className="w-full  font-bold uppercase tracking-widest flex items-centers "
         >
           Add Staff
           {form.formState.isSubmitting && (

@@ -3,11 +3,10 @@ const phoneRegex = new RegExp(
     /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
   );
 
-  const isAtLeast18YearsOld = (date: string): boolean => {
-    const thatDate = new Date(date);
+  const isAtLeast18YearsOld = (date: Date): boolean => {
     const today = new Date();
     const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-    return thatDate <= eighteenYearsAgo;
+    return date <= eighteenYearsAgo;
   };
 export const NewStaffSchema = z
   .object({
@@ -23,7 +22,7 @@ export const NewStaffSchema = z
    phone_number: z.string({
     required_error: "Please enter phone number."
   }).min(10, 'Please enter a valid phone number.').max(15, 'Please enter a valid phone number.').regex(phoneRegex, 'Please enter a valid phone number.'),
-   dob:  z.string({
+   dob:  z.date({
     required_error: "Please enter your date of birth.",
   }).refine(isAtLeast18YearsOld, {
     message: "Must be at least 18 years old",
