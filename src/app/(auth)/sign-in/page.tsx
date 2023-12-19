@@ -44,6 +44,7 @@ export default function SignIn() {
       }
     } else {
       toast.success("Login Success");
+      router.refresh()
       if (searchParams.get("redirect")) {
         router.push(searchParams.get("redirect") as string);
       } else {

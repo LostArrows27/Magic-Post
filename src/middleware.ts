@@ -10,7 +10,7 @@ export async function middleware(req: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
+  console.log("refetch user", user?.user_metadata.type);
   const { pathname } = new URL(req.url);
 
   if (!user && pathname !== "/sign-in" && pathname !== "/") {
@@ -20,20 +20,28 @@ export async function middleware(req: NextRequest) {
   }
   if (user) {
     if (
-      (user.user_metadata.type === "leader" ||
-        user.user_metadata.type === "gd_admin" ||
-        user.user_metadata.type === "tk_admin") &&
+      user.user_metadata.type === "leader" &&
       pathname !== "/office/dashboard" &&
-      pathname !== "/office/staffs" &&
-      pathname !== "/office/new-staff" &&
       pathname !== "/office/orders" &&
+      pathname !== "/office/transfers" &&
+      pathname !== "/office/central-hub" &&
+      pathname !== "/office/hub" &&
+      pathname !== "/"
+    ) {
+      return NextResponse.redirect(new URL(`/office/dashboard`, req.url));
+    } else if (
+      user.user_metadata.type === "tk_admin" &&
       pathname !== "/office/transfers" &&
       pathname !== "/"
     ) {
-      if(user.user_metadata.type === 'tk_admin' && pathname === '/office/orders') {
-        return NextResponse.redirect(new URL(`/office/transfers`, req.url))
-      } 
-      return NextResponse.redirect(new URL(`/office/dashboard`, req.url));
+      return NextResponse.redirect(new URL(`/office/transfers`, req.url));
+    } else if (
+      user.user_metadata.type === "gd_admin" &&
+      pathname !== "/office/transfers" &&
+      pathname !== "/office/orders" &&
+      pathname !== "/"
+    ) {
+      return NextResponse.redirect(new URL(`/office/orders`, req.url));
     } else if (
       user.user_metadata.type === "tk_staff" &&
       pathname !== "/office/new-transfer" &&
