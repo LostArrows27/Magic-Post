@@ -233,7 +233,7 @@ export default function NewStaffForm() {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
-          className="w-full  font-bold uppercase tracking-widest flex items-centers "
+          className="w-full  font-bold uppercase tracking-widest flex items-centers !mt-6 "
         >
           Add Staff
           {form.formState.isSubmitting && (
