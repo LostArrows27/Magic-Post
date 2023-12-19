@@ -13,7 +13,7 @@ export const NavItems: NavItem[] = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
-    href: "/office",
+    href: "/office/dashboard",
     color: "text-purple-500",
   },
   {
@@ -25,7 +25,7 @@ export const NavItems: NavItem[] = [
   {
     title: "Manage Orders",
     icon: GanttChartSquare,
-    href: "/office/manage-order",
+    href: "/office/orders",
     color: "text-green-500",
   },
   {
@@ -37,19 +37,19 @@ export const NavItems: NavItem[] = [
   {
     title: "Manage Transfers",
     icon: Boxes,
-    href: "/office/manage-transfer",
+    href: "/office/transfers",
     color: "text-orange-500",
   },
   {
     title: "New Staff",
     icon: UserPlus,
-    href: "/office/staff",
+    href: "/office/new-staff",
     color: "text-sky-500",
   },
   {
     title: "Manage Staffs",
     icon: Users,
-    href: "/office/manage-staff",
+    href: "/office/staffs",
     color: "text-sky-500",
   },
   // {

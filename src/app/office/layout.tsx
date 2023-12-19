@@ -3,6 +3,7 @@ import UserProvider from "@/providers/user-provider";
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
 import VietnamGeographyProvider from "@/providers/vietnam-geography-provider";
+import ModalProviders from "@/providers/modals-provider";
 
 export default async function RootLayout({
   children,
@@ -11,6 +12,8 @@ export default async function RootLayout({
 }) {
   return (
     <VietnamGeographyProvider>
+      <ModalProviders />
+
       <SupabaseProvider>
         <UserProvider>
           {/* <main className="w-full h-full">{children}</main> */}
