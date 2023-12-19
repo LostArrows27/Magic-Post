@@ -8,7 +8,16 @@ import { createClient } from "@supabase/supabase-js";
 import { format } from "date-fns";
 
 export const dynamic = "force-dynamic";
-
+interface UserData {
+    email: string;
+    password: string;
+    email_confirm: boolean;
+    user_metadata: {
+      province?: string;
+      district?: string;
+      type: string;
+    };
+}
 export async function POST(request: Request) {
   const formData: tNewStaffSchema = await request.json();
   formData.dob = new Date(formData.dob);
@@ -90,17 +99,20 @@ export async function POST(request: Request) {
     }@magic-post.com`;
     password = `staff_${department}_${provinceId}_${districtId}_${count + 1}`;
   }
-
-  const res = await supabase.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true,
-    user_metadata: {
-      province: data.user.user_metadata.province,
-      district: data.user.user_metadata.district,
-      type: `${department}_staff`,
-    },
-  });
+  const userData :UserData = {
+        email,
+        password,
+        email_confirm: true,
+        user_metadata: {
+            province: data.user.user_metadata.province,
+            type: `${department}_staff`,
+        }
+  }
+  if(districtId && department === "gd"){
+    userData.user_metadata.district = data.user.user_metadata.district;
+  }
+  
+  const res = await supabase.auth.admin.createUser(userData);
 
   const {error:profileError} = await supabase.from("staffs").insert({
     id:res.data.user?.id,

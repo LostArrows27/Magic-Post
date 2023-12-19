@@ -43,6 +43,13 @@ export default function NewStaffForm() {
   const { userDetails } = useUser();
   const form = useForm<tNewStaffSchema>({
     resolver: zodResolver(NewStaffSchema),
+    defaultValues:{
+        dob:undefined,
+        full_name:"",
+        home_town:"",
+        gender:"",
+        phone_number:""
+    }
   });
   const { supabaseClient } = useSessionContext();
 
@@ -62,7 +69,15 @@ export default function NewStaffForm() {
         `Create a ${userDetails?.role.split("_")[0]}_staff account success`
       );
       //reset the form
-      form.reset();
+      form.reset({
+        full_name: "",
+        home_town: "",
+        phone_number: "",
+        dob: undefined,
+        gender: ""
+      });
+
+
       setServerError("");
     }
   }
