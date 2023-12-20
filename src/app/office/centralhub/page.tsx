@@ -1,5 +1,3 @@
-"use client"
-
 import LocationDisplay from "@/components/location/location-display";
 
 export default function CentralHubPage() {

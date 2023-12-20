@@ -1,5 +1,6 @@
 "use client";
 
+import LocationModal from "@/components/location/location-modal";
 import { useState, useEffect } from "react";
 
 const ModalProviders = () => {
@@ -12,7 +13,9 @@ const ModalProviders = () => {
 
   if (!isMounted) return null;
 
-  return <>{/* Add more modal here if you want it to "appear":D */}</>;
+  return <>{/* Add more modal here if you want it to "appear":D */}
+    <LocationModal/>
+  </>;
 };
 
 export default ModalProviders;
