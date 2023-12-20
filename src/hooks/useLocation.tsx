@@ -38,7 +38,7 @@ export const useLocation = create<LocationStore>((set) => ({
         .from("locations")
         .select("*, staffs!locations_manager_id_fkey(*)")
         .eq("type", type);
-        console.log(data);
+        //console.log(data);
 
       if (error) {
         throw error;

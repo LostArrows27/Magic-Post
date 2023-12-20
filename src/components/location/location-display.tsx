@@ -13,12 +13,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useVietNamGeography } from '@/hooks/useVietNamGeography';
 
 export default function LocationDisplay({ locationType }: { locationType: string }) {
   const { onOpen } = useLocationModal();
 
   const [selectedZone, setSelectedZone] = useState("All");
-  
+
+  const { province } = useVietNamGeography();
+  console.log(province);
   const {
     supabaseClient: supabase,
   } = useSessionContext();
@@ -44,17 +47,16 @@ export default function LocationDisplay({ locationType }: { locationType: string
           <SelectValue placeholder="Select a zone" />
         </SelectTrigger>
         <SelectContent>
-            <SelectItem value="All">Province ID: All</SelectItem>
-            <SelectItem value="63">Province ID: 63</SelectItem>
-            <SelectItem value="62">Province ID: 62</SelectItem>
-            <SelectItem value="61">Province ID: 61</SelectItem>
-            <SelectItem value="60">Province ID: 60</SelectItem>
-            <SelectItem value="59">Province ID: 59</SelectItem>
+            <SelectItem value="All">All</SelectItem>
+            {province?.map((zone) => (
+              <SelectItem value={zone.PROVINCE_ID.toString()}>{zone.PROVINCE_NAME}</SelectItem>
+            ))}
         </SelectContent>
       </Select>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {locations.map((item) => (selectedZone === "All" || selectedZone === item.province_meta_data.PROVINCE_ID.toString()) && (
-                <Card key={item.id} className="bg-neutral-100 cursor-pointer">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {locations.map((item) => (
+              selectedZone === "All" || selectedZone === item.province_meta_data.PROVINCE_ID.toString()) && (
+                <Card key={item.id} className="bg-neutral-100">
                   <CardHeader className="flex flex-row gap-2 items-center justify-start space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       <div className="text-xl font-bold">
@@ -84,7 +86,7 @@ export default function LocationDisplay({ locationType }: { locationType: string
                       console.log("Button clicked");
                     }}
                     variant="link"
-                    className='pl-6 pb-2'
+                    className='pl-6 mb-4'
                   >
                     See more details
                   </Button>

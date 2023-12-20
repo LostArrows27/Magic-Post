@@ -1,3 +1,4 @@
+import { Staff } from "@/types/supabase-table-type";
 import { create } from "zustand";
 
 type LocationModalProps = {
