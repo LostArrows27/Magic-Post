@@ -1,5 +1,6 @@
 "use client";
 
+import NewStaffAccountModal from "@/components/new-staff-ui/new-staff-account-modal";
 import LocationModal from "@/components/location/location-modal";
 import { useState, useEffect } from "react";
 
@@ -13,9 +14,12 @@ const ModalProviders = () => {
 
   if (!isMounted) return null;
 
-  return <>{/* Add more modal here if you want it to "appear":D */}
-    <LocationModal/>
-  </>;
+  return (
+    <>
+      <LocationModal/>
+      <NewStaffAccountModal/>
+    </>
+  )
 };
 
 export default ModalProviders;

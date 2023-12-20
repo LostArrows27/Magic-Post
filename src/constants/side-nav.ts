@@ -19,7 +19,7 @@ export const NavItems: NavItem[] = [
                 title: "Central Hub",
                 icon: Database,
                 color: "text-pink-500",
-                href: "/office/centralhub",
+                href: "/office/central-hub",
             },
             {
                 title: "Hub",
