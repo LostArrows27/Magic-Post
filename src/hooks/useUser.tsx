@@ -4,7 +4,7 @@ import {
   useUser as useSupaUser,
 } from "@supabase/auth-helpers-react";
 import { UserContextType, UserSystem } from "@/types/user-context-type";
-import { Staff } from "@/types/supabase-table-type";
+import { Location, Staff } from "@/types/supabase-table-type";
 
 export const UserContext = createContext<UserContextType | undefined>(
   undefined
@@ -26,6 +26,7 @@ export const MyUserContextProvider = (props: Props) => {
   const accessToken = session?.access_token ?? null;
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [userDetails, setUserDetails] = useState<Staff | null>(null);
+  const [workLocation, setWorkLocation] = useState<Location | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -33,12 +34,14 @@ export const MyUserContextProvider = (props: Props) => {
         setIsLoadingData(true);
         const userDetail = await supabase
           .from("staffs")
-          .select("*")
+          .select("*, locations!staffs_work_place_id_fkey(*)")
           .eq("id", user.id)
           .single();
-        setUserDetails({
-          ...userDetail.data,
-        });
+
+        setWorkLocation(userDetail.data.locations);
+        delete userDetail.data.locations;
+        setUserDetails(userDetail.data as Staff);
+
         setIsLoadingData(false);
       }
     };
@@ -49,6 +52,7 @@ export const MyUserContextProvider = (props: Props) => {
 
   const value: UserContextType = {
     accessToken,
+    workLocation,
     userDetails,
     user,
     isLoading: isLoadingData,

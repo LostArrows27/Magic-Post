@@ -12,6 +12,13 @@ body,
   --plyr-range-fill-background: #3dbda7;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
 @layer base {
   :root {
     /* Name: custom color palette
