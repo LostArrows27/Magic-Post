@@ -21,7 +21,7 @@ export default function LocationDisplay({ locationType }: { locationType: string
   const [selectedZone, setSelectedZone] = useState("All");
 
   const { province } = useVietNamGeography();
-  console.log(province);
+  
   const {
     supabaseClient: supabase,
   } = useSessionContext();
@@ -49,14 +49,14 @@ export default function LocationDisplay({ locationType }: { locationType: string
         <SelectContent>
             <SelectItem value="All">All</SelectItem>
             {province?.map((zone) => (
-              <SelectItem value={zone.PROVINCE_ID.toString()}>{zone.PROVINCE_NAME}</SelectItem>
+              <SelectItem key={zone.PROVINCE_ID} value={zone.PROVINCE_ID.toString()}>{zone.PROVINCE_NAME}</SelectItem>
             ))}
         </SelectContent>
       </Select>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {locations.map((item) => (
               selectedZone === "All" || selectedZone === item.province_meta_data.PROVINCE_ID.toString()) && (
-                <Card key={item.id} className="bg-neutral-100">
+                <Card key={item.id} className="bg-border">
                   <CardHeader className="flex flex-row gap-2 items-center justify-start space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       <div className="text-xl font-bold">
@@ -82,7 +82,7 @@ export default function LocationDisplay({ locationType }: { locationType: string
                   </CardContent>
                   <Button 
                     onClick={() => {
-                      onOpen();
+                      onOpen(item.staffs);
                       console.log("Button clicked");
                     }}
                     variant="link"
