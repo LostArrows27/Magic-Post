@@ -21,9 +21,12 @@ export const parcelFormSchema = z.object({
     .string({
       required_error: "Weight is required",
     })
-    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-      message: "Expected number, received a string",
-    }),
+    .refine(
+      (val) => !Number.isNaN(parseInt(val, 10) && parseInt(val, 10) > 0),
+      {
+        message: "Wrong number format",
+      }
+    ),
   description: z
     .string({
       required_error: "Description is required",
@@ -33,21 +36,30 @@ export const parcelFormSchema = z.object({
     }),
   height: z
     .string()
-    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-      message: "Expected number, received a string",
-    })
+    .refine(
+      (val) => !Number.isNaN(parseInt(val, 10) && parseInt(val, 10) > 0),
+      {
+        message: "Wrong number format",
+      }
+    )
     .optional(),
   width: z
     .string()
-    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-      message: "Expected number, received a string",
-    })
+    .refine(
+      (val) => !Number.isNaN(parseInt(val, 10) && parseInt(val, 10) > 0),
+      {
+        message: "Wrong number format",
+      }
+    )
     .optional(),
   length: z
     .string()
-    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-      message: "Expected number, received a string",
-    })
+    .refine(
+      (val) => !Number.isNaN(parseInt(val, 10) && parseInt(val, 10) > 0),
+      {
+        message: "Wrong number format",
+      }
+    )
     .optional(),
 });
 

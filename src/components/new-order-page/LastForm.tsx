@@ -33,22 +33,7 @@ import { useOrderFormProgress } from "@/hooks/useOrderFormProgress";
 import { useDebounce } from "@/hooks/useDebounce";
 import { getEstimatePrice } from "@/actions/get-estimate-price";
 import { toast } from "sonner";
-import { wait } from "@/lib/wait";
 import { useRouter } from "next/navigation";
-// TODO: create trackings after creating parcel
-// TODO: add parcel information to database
-/*
-1. product_name
-2. sender_id
-3. receiver_id
-4. origin_location => select from location where staff work
-5. destination_location => select from location of receiver
-6. weight
-7. description
-8. created_staff: userDetails.id
-9. date_sent: new Date()
-10. current_location: origin_location
-*/
 
 const LastForm = () => {
   const [destinationID, setDestinationID] = useState<string | null>(null);
@@ -150,7 +135,7 @@ const LastForm = () => {
       setLoadPrice(false);
     };
 
-    if (debouncedValue) {
+    if (debouncedValue && parseInt(debouncedValue) > 0) {
       searchPrice();
     }
   }, [
@@ -237,8 +222,9 @@ const LastForm = () => {
                 <Label className="mb-2">Weight</Label>
                 <FormControl>
                   <Input
-                    placeholder="Enter product weight"
+                    placeholder="Enter product weight (g)"
                     type="number"
+                    min={0}
                     className="h-12 rounded-xl"
                     {...field}
                     disabled={loading}
@@ -252,7 +238,7 @@ const LastForm = () => {
             <Label className="mb-2">Estimate Price and Time</Label>
             <div className="relative">
               {loadPrice ? (
-                <AiOutlineLoading className="w-6 h-6 rounded-md z-10 absolute top-1/2 text-muted-foreground transform -translate-y-1/2 right-3" />
+                <AiOutlineLoading className="w-6 h-6 top-3  animate-spin rounded-md z-10 absolute text-muted-foreground right-3" />
               ) : (
                 <RiMoneyDollarCircleFill className="w-6 h-6 rounded-md z-10 absolute top-1/2 text-muted-foreground transform -translate-y-1/2 right-3" />
               )}
@@ -281,6 +267,7 @@ const LastForm = () => {
                     <Input
                       disabled={loading}
                       type="number"
+                      min={0}
                       placeholder="width (cm)"
                       className="h-12 rounded-xl"
                       {...field}
@@ -299,6 +286,7 @@ const LastForm = () => {
                   <FormControl>
                     <Input
                       type="number"
+                      min={0}
                       placeholder="height (cm)"
                       className="h-12 rounded-xl"
                       {...field}
@@ -316,6 +304,7 @@ const LastForm = () => {
                   <FormControl>
                     <Input
                       type="number"
+                      min={0}
                       placeholder="length (cm)"
                       className="h-12 rounded-xl"
                       {...field}
