@@ -1,6 +1,6 @@
 import { User } from "@supabase/supabase-js";
 import { Province, District } from "./geometry-type";
-import { Role, Staff } from "./supabase-table-type";
+import { Location, Role, Staff } from "./supabase-table-type";
 
 type UserSystem = Omit<User, "user_metadata"> & {
   user_metadata: {
@@ -13,7 +13,7 @@ type UserSystem = Omit<User, "user_metadata"> & {
 type UserContextType = {
   accessToken: string | null;
   user: UserSystem | null;
-  isLoading: boolean;
+  workLocation: Location | null;
   userDetails: Staff | null;
 };
 
