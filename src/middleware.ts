@@ -11,9 +11,14 @@ export async function middleware(req: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
   const { pathname } = new URL(req.url);
-  if (!user && pathname !== "/sign-in" && pathname !== "/") {
+
+  if (!user && pathname === "/office/dashboard") {
     return NextResponse.redirect(
       new URL(`/sign-in?redirect=${encodeURIComponent(pathname)}`, req.url)
+    );
+  }else if(!user &&  pathname !== "/" && pathname !== "/sign-in" ) {
+    return NextResponse.redirect(
+      new URL(`/`, req.url)
     );
   }
   if (user) {
