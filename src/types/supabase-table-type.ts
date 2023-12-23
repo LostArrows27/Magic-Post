@@ -35,3 +35,7 @@ export type Location = Omit<
   province_meta_data: Province;
   district_meta_data: District;
 };
+
+export type StaffData = Staff & {
+  locations: Location;
+};

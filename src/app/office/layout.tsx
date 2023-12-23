@@ -4,19 +4,38 @@ import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
 import VietnamGeographyProvider from "@/providers/vietnam-geography-provider";
 import ModalProviders from "@/providers/modals-provider";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { Location, Staff, StaffData } from "@/types/supabase-table-type";
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabaseClient = createServerComponentClient({ cookies });
+
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
+
+  // if (!user) return redirect("/sign-in");
+
+  const { data, error } = await supabaseClient
+    .from("staffs")
+    .select("*, locations!staffs_work_place_id_fkey(*)")
+    .eq("id", user!.id)
+    .returns<StaffData[]>();
+
+  if (error) return redirect("/sign-in");
+
   return (
     <VietnamGeographyProvider>
       <SupabaseProvider>
-        <UserProvider>
+        <UserProvider userDetails={data![0]}>
           <ModalProviders />
-          {/* <main className="w-full h-full">{children}</main> */}
-          <Header />
+          <Header userDetails={data![0]} />
           <div className="flex h-screen overflow-hidden">
             <Sidebar />
             <main className="flex-1 overflow-y-auto overflow-x-hidden pt-16">

@@ -1,14 +1,15 @@
 "use client";
 import { MyUserContextProvider } from "@/hooks/useUser";
+import { Staff, StaffData } from "@/types/supabase-table-type";
 
 interface UserProviderProps {
   children: React.ReactNode;
+  userDetails: StaffData;
 }
 
-const UserProvider = ({ children }: UserProviderProps) => {
-
+const UserProvider = ({ children, userDetails }: UserProviderProps) => {
   return (
-    <MyUserContextProvider>
+    <MyUserContextProvider userDetails={userDetails}>
       {children}
     </MyUserContextProvider>
   );
