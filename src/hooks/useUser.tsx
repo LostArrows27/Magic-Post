@@ -4,7 +4,7 @@ import {
   useUser as useSupaUser,
 } from "@supabase/auth-helpers-react";
 import { UserContextType, UserSystem } from "@/types/user-context-type";
-import { Staff } from "@/types/supabase-table-type";
+import { Location, Staff, StaffData } from "@/types/supabase-table-type";
 
 export const UserContext = createContext<UserContextType | undefined>(
   undefined
@@ -14,7 +14,13 @@ export interface Props {
   [propName: string]: any;
 }
 
-export const MyUserContextProvider = (props: Props) => {
+export const MyUserContextProvider = ({
+  userDetails,
+  children,
+}: {
+  userDetails: StaffData;
+  children: React.ReactNode;
+}) => {
   const {
     session,
     isLoading: isLoadingUser,
@@ -24,37 +30,23 @@ export const MyUserContextProvider = (props: Props) => {
   const user = useSupaUser() as UserSystem | null;
 
   const accessToken = session?.access_token ?? null;
-  const [isLoadingData, setIsLoadingData] = useState(false);
-  const [userDetails, setUserDetails] = useState<Staff | null>(null);
+  const [workLocation, setWorkLocation] = useState<Location | null>(
+    userDetails?.locations
+  );
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (user && !isLoadingData && !userDetails) {
-        setIsLoadingData(true);
-        const userDetail = await supabase
-          .from("staffs")
-          .select("*")
-          .eq("id", user.id)
-          .single();
-        setUserDetails({
-          ...userDetail.data,
-        });
-        setIsLoadingData(false);
-      }
-    };
-
-    fetchUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, isLoadingUser]);
+  const [userData, setUserData] = useState<Staff | null>(() => {
+    const { locations, ...rest } = userDetails;
+    return rest;
+  });
 
   const value: UserContextType = {
     accessToken,
-    userDetails,
+    workLocation,
+    userDetails: userData,
     user,
-    isLoading: isLoadingData,
   };
 
-  return <UserContext.Provider value={value} {...props}></UserContext.Provider>;
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => {

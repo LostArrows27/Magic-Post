@@ -11,8 +11,8 @@ interface SupabaseProviderProps {
 }
 
 function SupabaseProvider({ children }: SupabaseProviderProps) {
-  const [supabaseClient, setSupabaseClient] = useState(
-    () => createClientComponentClient<Database>() //TODO: add type
+  const [supabaseClient, setSupabaseClient] = useState(() =>
+    createClientComponentClient<Database>()
   );
 
   return (
