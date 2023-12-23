@@ -30,11 +30,11 @@ export const MyUserContextProvider = ({
   const user = useSupaUser() as UserSystem | null;
 
   const accessToken = session?.access_token ?? null;
-  const [workLocation, setWorkLocation] = useState<Location | null>(
+  const [workLocation, setWorkLocation] = useState<Location>(
     userDetails?.locations
   );
 
-  const [userData, setUserData] = useState<Staff | null>(() => {
+  const [userData, setUserData] = useState<Staff>(() => {
     const { locations, ...rest } = userDetails;
     return rest;
   });

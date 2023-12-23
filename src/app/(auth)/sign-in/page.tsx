@@ -44,11 +44,11 @@ export default function SignIn() {
       }
     } else {
       toast.success("Login Success");
-      router.refresh()
+      router.refresh();
       if (searchParams.get("redirect")) {
-        router.push(searchParams.get("redirect") as string);
+        window.location.href = searchParams.get("redirect") as string;
       } else {
-        router.push("/office");
+        window.location.href = "/office";
       }
     }
   }

@@ -1,25 +1,22 @@
 import { District, Province, Subward, Ward } from "./geometry-type";
-import { Database } from "./supabase-type";
+import { Tables, Enums } from "./supabase-type";
 // Enum
 
-export type Role = Database["public"]["Enums"]["role"];
-export type Building = Database["public"]["Enums"]["building"];
-export type Gender = Database["public"]["Enums"]["gender"];
-export type ParcelStatus = Database["public"]["Enums"]["parcel_status"];
+export type Role = Enums<"role">;
+export type Building = Enums<"building">;
+export type Gender = Enums<"gender">;
+export type ParcelStatus = Enums<"parcel_status">;
 
 // Table
 
-export type Staff = Database["public"]["Tables"]["staffs"]["Row"];
+export type Staff = Tables<"staffs">;
 
-export type Parcel = Database["public"]["Tables"]["parcels"]["Row"];
-export type Tracking = Database["public"]["Tables"]["trackings"]["Row"];
-export type TransferDetail =
-  Database["public"]["Tables"]["transfer_details"]["Row"];
+export type Parcel = Tables<"parcels">;
+export type Tracking = Tables<"trackings">;
+export type TransferDetail = Tables<"transfer_details">;
+export type Transfers = Tables<"transfers">;
 
-export type Customer = Omit<
-  Database["public"]["Tables"]["customers"]["Row"],
-  "address_meta_data"
-> & {
+export type Customer = Omit<Tables<"customers">, "address_meta_data"> & {
   address_meta_data: {
     province: Province;
     district: District;
@@ -29,7 +26,7 @@ export type Customer = Omit<
 };
 
 export type Location = Omit<
-  Database["public"]["Tables"]["locations"]["Row"],
+  Tables<"locations">,
   "province_meta_data" | "district_meta_data"
 > & {
   province_meta_data: Province;
@@ -38,4 +35,12 @@ export type Location = Omit<
 
 export type StaffData = Staff & {
   locations: Location;
+};
+
+export type TransferDetailWithParcel = TransferDetail & {
+  parcels: Parcel;
+};
+
+export type TransferWithParcelData = Transfers & {
+  transfer_details: TransferDetailWithParcel[];
 };
