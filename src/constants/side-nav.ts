@@ -22,7 +22,7 @@ export const NavItems: NavItem[] = [
                 href: "/office/central-hub",
             },
             {
-                title: "Hub",
+                title: "Hub Manager",
                 icon: Cylinder,
                 color: "text-pink-500",
                 href: "/office/hub",
