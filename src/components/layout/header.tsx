@@ -14,8 +14,6 @@ import { Staff } from "@/types/supabase-table-type";
 export default function Header({ userDetails }: { userDetails: Staff }) {
   const router = useRouter();
 
-  console.log("userDetails", userDetails);
-
   return (
     <div className="supports-backdrop-blur:bg-background/60 fixed left-0 right-0 top-0 z-20 border-b border-b-neutral-300 bg-background/95 backdrop-blur">
       <nav className="flex h-16 items-center justify-start px-4">

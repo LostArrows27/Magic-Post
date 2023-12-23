@@ -14,7 +14,6 @@ type UserContextType = {
   accessToken: string | null;
   user: UserSystem | null;
   workLocation: Location | null;
-  isLoading: boolean;
   userDetails: Staff | null;
 };
 

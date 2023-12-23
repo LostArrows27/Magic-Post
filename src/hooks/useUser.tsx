@@ -30,7 +30,6 @@ export const MyUserContextProvider = ({
   const user = useSupaUser() as UserSystem | null;
 
   const accessToken = session?.access_token ?? null;
-  const [isLoadingData, setIsLoadingData] = useState(false);
   const [workLocation, setWorkLocation] = useState<Location | null>(
     userDetails?.locations
   );
@@ -45,7 +44,6 @@ export const MyUserContextProvider = ({
     workLocation,
     userDetails: userData,
     user,
-    isLoading: isLoadingData,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

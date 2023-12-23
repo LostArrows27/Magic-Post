@@ -52,8 +52,6 @@ export const VietNamGeographyWrapper = (props: Props) => {
     isLoading: isLoading,
   };
 
-  // console.log(value);
-
   return (
     <VietnamGeographyContext.Provider
       value={value}
