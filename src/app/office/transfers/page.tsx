@@ -27,7 +27,9 @@ export default async function TransfersPage() {
 
   const { data, error } = await supabase
     .from("transfers")
-    .select("*, transfer_details(*, parcels(*))")
+    .select(
+      "*, transfer_details(*, parcels(*)), from:locations!transfers_from_location_id_fkey(*), to:locations!transfers_to_location_id_fkey(*)"
+    )
     .or(
       `to_location_id.eq.${workingLocation},from_location_id.eq.${workingLocation}`
     )

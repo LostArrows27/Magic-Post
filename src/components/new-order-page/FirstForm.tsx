@@ -47,7 +47,7 @@ const FirstForm = () => {
       }
       form.setValue("province_id", sender.province_id);
       form.setValue("district_id", sender.district_id);
-      form.setValue("ward_id", sender.ward_id);
+      form.setValue("ward_id", sender.ward_id!);
       if (sender.subward_id) {
         form.setValue("subward_id", sender.subward_id);
       }

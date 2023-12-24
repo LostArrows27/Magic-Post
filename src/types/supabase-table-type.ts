@@ -43,4 +43,6 @@ export type TransferDetailWithParcel = TransferDetail & {
 
 export type TransferWithParcelData = Transfers & {
   transfer_details: TransferDetailWithParcel[];
+  from: Location;
+  to: Location;
 };
