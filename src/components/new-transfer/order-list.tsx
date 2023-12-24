@@ -9,12 +9,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import SearchOrder from "./search-order";
-import FilterOrder from "./filter-order";
 import { Button } from "../ui/button";
 import { Parcel } from "@/types/supabase-table-type";
 import { useCallback, useEffect, useState, useMemo, use } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { useTransferOrdersList } from "@/hooks/useTransferOrdersList";
+import OrdersTools from "./orders-tools";
 
 export default function OrderList({
   parcels,
@@ -61,7 +61,7 @@ export default function OrderList({
     <section className="bg-background w-full rounded-xl h-fit flex flex-col justify-center items-center p-5">
       <div className="flex w-full pb-5  justify-between">
         <SearchOrder />
-        <FilterOrder />
+        <OrdersTools />
       </div>
       <Table>
         <TableCaption className=" font-bold italic">
@@ -95,47 +95,53 @@ export default function OrderList({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {displayOrders.map((order) => {
-            return (
-              <TableRow key={order.id}>
-                <TableCell className="w-[60px]  ">
-                  <Checkbox
-                    checked={order.checked}
-                    onCheckedChange={(checked: boolean) => {
-                      const newOrders = [...orders];
-                      newOrders.forEach((o) => {
-                        if (order.id === o.id) {
-                          o.checked = checked;
-                          return;
-                        }
-                      });
-                      setOrders(newOrders);
-                      setDisplayOrders(newOrders);
-                      setChange(!change);
-                    }}
-                    className="shadow-border border-0"
-                  />
-                </TableCell>
-                <TableCell className="max-w-[100px] w-[100px] truncate">
-                  {order.id}
-                </TableCell>
-                <TableCell className=" max-w-[250px] w-[250px] truncate">
-                  {order.product_name}
-                </TableCell>
-                <TableCell className=" max-w-[250px] w-[250px] truncate">
-                  {order.description}
-                </TableCell>
-                <TableCell className="truncate">
-                  {order.destination_location_id}
-                </TableCell>
-                <TableCell className="truncate">{order.weight}</TableCell>
-                <TableCell className="truncate">{order.paid_fee}</TableCell>
-                <TableCell className="text-right">
-                  {new Date(order.date_sent).toLocaleString()}
-                </TableCell>
-              </TableRow>
-            );
-          })}
+          {displayOrders.length > 0 ? (
+            displayOrders.map((order) => {
+              return (
+                <TableRow key={order.id}>
+                  <TableCell className="w-[60px]  ">
+                    <Checkbox
+                      checked={order.checked}
+                      onCheckedChange={(checked: boolean) => {
+                        const newOrders = [...orders];
+                        newOrders.forEach((o) => {
+                          if (order.id === o.id) {
+                            o.checked = checked;
+                            return;
+                          }
+                        });
+                        setOrders(newOrders);
+                        setDisplayOrders(newOrders);
+                        setChange(!change);
+                      }}
+                      className="shadow-border border-0"
+                    />
+                  </TableCell>
+                  <TableCell className="max-w-[100px] w-[100px] truncate">
+                    {order.id}
+                  </TableCell>
+                  <TableCell className=" max-w-[250px] w-[250px] truncate">
+                    {order.product_name}
+                  </TableCell>
+                  <TableCell className=" max-w-[250px] w-[250px] truncate">
+                    {order.description}
+                  </TableCell>
+                  <TableCell className="truncate">
+                    {order.destination_location_id}
+                  </TableCell>
+                  <TableCell className="truncate">{order.weight}</TableCell>
+                  <TableCell className="truncate">{order.paid_fee}</TableCell>
+                  <TableCell className="text-right">
+                    {new Date(order.date_sent).toLocaleString()}
+                  </TableCell>
+                </TableRow>
+              );
+            })
+          ) : (
+            <TableRow className=" text text-center font-bold  ">
+              <TableCell colSpan={8}>No order found.</TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
       <div className="mt-auto flex justify-between w-full pt-10 items-center">
