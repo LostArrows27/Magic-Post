@@ -9,7 +9,7 @@ interface StaffStore {
   fetchStaffs: (work_place_id: string, role: string, supabase: SupabaseClient) => Promise<void>;
 }
 
-export const useLocation = create<StaffStore>((set) => ({
+export const useStaff = create<StaffStore>((set) => ({
   staffs: [],
   isLoading: false,
   isError: false,

@@ -1,7 +1,7 @@
 "use client";
 
 import NewStaffAccountModal from "@/components/new-staff-ui/new-staff-account-modal";
-import LocationModal from "@/components/location/location-modal";
+import LocationModal from "@/components/location/staff-modal";
 import { useState, useEffect } from "react";
 
 const ModalProviders = () => {
