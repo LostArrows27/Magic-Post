@@ -1,5 +1,6 @@
 "use client";
 import NewStaffAccountModal from "@/components/new-staff-ui/new-staff-account-modal";
+import TransferConfirmModal from "@/components/new-transfer/transfer-confirm-modal";
 import { useEffect, useState } from "react";
 
 function ModalProviders() {
@@ -15,6 +16,7 @@ function ModalProviders() {
   return (
     <>
       <NewStaffAccountModal />
+      <TransferConfirmModal />
     </>
   );
 }

@@ -4,7 +4,6 @@ import { create } from "zustand";
 type TransferOrdersList = {
     orders: (Parcel & { checked: boolean })[];
     displayOrders: (Parcel & { checked: boolean })[];
-
     totalWeight: number;
     totalFee: number;
     setOrders: (orders: (Parcel & { checked: boolean })[]) => void;

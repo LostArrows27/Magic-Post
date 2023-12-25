@@ -15,6 +15,10 @@ import { useCallback, useEffect, useState, useMemo, use } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { useTransferOrdersList } from "@/hooks/useTransferOrdersList";
 import OrdersTools from "./orders-tools";
+import { useTransferConfirmModal } from "@/hooks/useTransferConfirmModal";
+import { cn } from "@/lib/utils";
+import { useVietNamGeography } from "@/hooks/useVietNamGeography";
+import convertLocationIdToString from "@/lib/convertLocationIdToString";
 
 export default function OrderList({
   parcels,
@@ -33,9 +37,11 @@ export default function OrderList({
     setTotalFee,
     setTotalWeight,
   } = useTransferOrdersList();
+  const { district, ward, province } = useVietNamGeography();
 
+  const { onOpen } = useTransferConfirmModal();
   const [change, setChange] = useState(false);
-
+  const [invalid, setInvalid] = useState(false);
   useEffect(() => {
     //recalculate total weight and total fee
     let totalWeight = 0;
@@ -64,8 +70,12 @@ export default function OrderList({
         <OrdersTools />
       </div>
       <Table>
-        <TableCaption className=" font-bold italic">
-          Check the orders you want to transfer
+        <TableCaption
+          className={cn(" font-bold italic", invalid && "text-red-400")}
+        >
+          {invalid
+            ? "Please select atleast one parcel"
+            : "Check the orders you want to transfer"}
         </TableCaption>
         <TableHeader>
           <TableRow>
@@ -127,7 +137,12 @@ export default function OrderList({
                     {order.description}
                   </TableCell>
                   <TableCell className="truncate">
-                    {order.destination_location_id}
+                    {convertLocationIdToString({
+                      locationId: order.destination_location_id,
+                      district,
+                      province,
+                      ward,
+                    })}
                   </TableCell>
                   <TableCell className="truncate">{order.weight}</TableCell>
                   <TableCell className="truncate">{order.paid_fee}</TableCell>
@@ -155,7 +170,19 @@ export default function OrderList({
           </h2>
         </div>
 
-        <Button className="text-lg" size={"lg"}>
+        <Button
+          className="text-lg"
+          size={"lg"}
+          variant={invalid ? "destructive" : "default"}
+          onClick={() => {
+            if (totalWeight === 0) {
+              setInvalid(true);
+            } else {
+              setInvalid(false);
+              onOpen("gd=>tk");
+            }
+          }}
+        >
           Confirm
         </Button>
       </div>

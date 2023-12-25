@@ -12,29 +12,22 @@ import {
 import { useEffect, useState } from "react";
 import { useTransferOrdersList } from "@/hooks/useTransferOrdersList";
 import { useRouter } from "next/navigation";
-type Filters = "weight" | "fee" | "time" | "";
-export default function OrdersTools() {
-  const { orders, displayOrders, setDisplayOrders } = useTransferOrdersList();
+import { useTransferLocations } from "@/hooks/useTransferLocations";
+type Filters = "amount" | ''
+export default function LocationsTools() {
+  const { locations, displayLocations, setDisplayLocations } = useTransferLocations();
   const [minFirst, setMinFirst] = useState(true);
   const router = useRouter();
   const [filter, setFilter] = useState<Filters>(''); // ["weight","fee","time"
   useEffect(() => {
     if (filter) {
       // sort by filter if minfirst then asc else desc
-      const sorted = displayOrders.sort((a, b) => {
-        if (filter === "weight") {
-          return minFirst ? a.weight - b.weight : b.weight - a.weight;
-        } else if (filter === "fee") {
-          return minFirst ? a.paid_fee - b.paid_fee : b.paid_fee - a.paid_fee;
-        } else {
-          return minFirst
-            ? new Date(a.date_sent).getMilliseconds() -
-                new Date(b.date_sent).getMilliseconds()
-            : new Date(b.date_sent).getMilliseconds() -
-                new Date(a.date_sent).getMilliseconds();
-        }
+      const sorted = displayLocations.sort((a, b) => {
+       
+          return minFirst ? a.count_parcels - b.count_parcels : b.count_parcels - a.count_parcels;
+        
       });
-      setDisplayOrders(sorted);
+      setDisplayLocations(sorted);
     }
   }, [filter, minFirst]);
   return (
@@ -67,9 +60,8 @@ export default function OrdersTools() {
           <SelectValue placeholder="Choose filter"  />
         </SelectTrigger>
         <SelectContent className="bg-primary text-primary-foreground">
-          <SelectItem value="weight">Weight</SelectItem>
-          <SelectItem value="fee">Fee</SelectItem>
-          <SelectItem value="time">Time</SelectItem>
+          <SelectItem value="amount">Amount</SelectItem>
+         
         </SelectContent>
       </Select>
     </div>
