@@ -12,11 +12,17 @@ const AllTransfers = ({
 }: {
   transfers: TransferWithParcelData[];
 }) => {
-  const setAllTransfer = useAllTransfer((state) => state.setAllTransfer);
+  const { setAllTransfer, setAllTransferOriginData } = useAllTransfer(
+    (state) => ({
+      setAllTransfer: state.setAllTransfer,
+      setAllTransferOriginData: state.setAllTransferOriginData,
+    })
+  );
 
   useEffect(() => {
     setAllTransfer(transfers);
-  }, [setAllTransfer, transfers]);
+    setAllTransferOriginData(transfers);
+  }, [setAllTransfer, setAllTransferOriginData, transfers]);
 
   return (
     <div className="p-5">

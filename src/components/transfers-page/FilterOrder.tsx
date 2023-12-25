@@ -1,8 +1,9 @@
 import { useAllTransfer } from "@/hooks/useAllTransfer";
 import { useUser } from "@/hooks/useUser";
 import { countTransfer } from "@/lib/countTransfer";
+import { filterTransferDataByState } from "@/lib/filterTransferData";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaTruckFast } from "react-icons/fa6";
 import { IoDocumentText } from "react-icons/io5";
 import { MdFactCheck } from "react-icons/md";
@@ -36,12 +37,25 @@ const orderFilter = {
 };
 
 const FilterOrder = () => {
-  const allTransfers = useAllTransfer((set) => set.allTransfer);
+  const { setAllTransfers, allTransferOriginData } = useAllTransfer((set) => ({
+    allTransferOriginData: set.allTransferOriginData,
+    setAllTransfers: set.setAllTransfer,
+  }));
 
   const [sendingState, setSendingState] =
     useState<keyof typeof orderFilter>("all");
 
   const { workLocation } = useUser();
+  useEffect(() => {
+    const newData = filterTransferDataByState(
+      sendingState,
+      allTransferOriginData,
+      workLocation.id
+    );
+
+    setAllTransfers(newData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sendingState]);
 
   return (
     <div className="w-full flex items-center overflow-hidden rounded-sm">
@@ -69,14 +83,14 @@ const FilterOrder = () => {
             >
               {orderFilter[key as keyof typeof orderFilter].icon}
             </span>
-            <span className=" font-semibold text-sm">
+            <span className="font-semibold text-sm">
               {orderFilter[key as keyof typeof orderFilter].name}
             </span>
           </div>
           <div className="py-2 text-sm">
             {countTransfer(
               key as keyof typeof orderFilter,
-              allTransfers,
+              allTransferOriginData,
               workLocation.id
             )}{" "}
             transfers

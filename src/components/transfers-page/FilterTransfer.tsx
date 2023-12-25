@@ -1,3 +1,4 @@
+import { useAllTransfer } from "@/hooks/useAllTransfer";
 import { Separator } from "../ui/separator";
 import FilterOrder from "./FilterOrder";
 import FilterRange from "./FilterRange";
@@ -6,16 +7,34 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { filterTransferByLocation } from "@/lib/filterTransferData";
+import { useUser } from "@/hooks/useUser";
 const FilterTransfer = () => {
+  const { setAllTransfers, allTransferOriginData } = useAllTransfer((set) => ({
+    allTransferOriginData: set.allTransferOriginData,
+    setAllTransfers: set.setAllTransfer,
+  }));
+
+  const { workLocation } = useUser();
+
   return (
     <>
       <div className="flex items-center justify-end gap-x-8">
         <FilterRange />
-        <Select>
+        <Select
+          onValueChange={(value) => {
+            const newData = filterTransferByLocation(
+              value,
+              allTransferOriginData,
+              workLocation.id
+            );
+
+            setAllTransfers(newData);
+          }}
+        >
           <SelectTrigger className="w-[180px] border border-gray-500">
             <SelectValue placeholder="Select location type" />
           </SelectTrigger>

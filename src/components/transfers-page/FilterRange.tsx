@@ -1,4 +1,3 @@
-import * as React from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
@@ -10,15 +9,47 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { convertRangeToString } from "@/lib/convertRangeToString";
+import { useEffect, useState } from "react";
+import { useAllTransfer } from "@/hooks/useAllTransfer";
+import { useUser } from "@/hooks/useUser";
+import { filterTransferByRange } from "@/lib/filterTransferData";
 
 const FilterRange = () => {
-  const [date, setDate] = React.useState<{
+  const [date, setDate] = useState<{
     from: Date | undefined;
     to?: Date | undefined;
   }>();
 
+  const [open, setOpen] = useState(false);
+
+  const { setAllTransfers, allTransferOriginData } = useAllTransfer((set) => ({
+    allTransferOriginData: set.allTransferOriginData,
+    setAllTransfers: set.setAllTransfer,
+  }));
+
+  const { workLocation } = useUser();
+
+  useEffect(() => {
+    if (!open) {
+      const newData = filterTransferByRange(
+        date ? date.from : undefined,
+        date ? date.to : undefined,
+        allTransferOriginData
+      );
+
+      setAllTransfers(newData);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date?.from?.toISOString(), date?.to?.toISOString(), open]);
+
   return (
-    <Popover>
+    <Popover
+      open={open}
+      onOpenChange={(state) => {
+        setOpen(state);
+      }}
+    >
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}

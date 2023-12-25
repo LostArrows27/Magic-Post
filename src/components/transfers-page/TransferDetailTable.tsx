@@ -13,6 +13,9 @@ import { Button } from "../ui/button";
 import { convertLocationToString } from "@/lib/convertLocationToString";
 import { convertTransferState } from "@/lib/convertTransferState";
 import { useUser } from "@/hooks/useUser";
+import { format } from "date-fns";
+import { useViewTransferModal } from "@/hooks/useViewTransferModal";
+import { convertLocationID } from "@/lib/convertLocationID";
 
 const invoices = [
   {
@@ -70,22 +73,31 @@ const invoices = [
 */
 
 const TransferDetailTable = () => {
-  const allTransfer = useAllTransfer((set) => set.allTransfer);
+  const { allTransfer, allTransferOriginData } = useAllTransfer((set) => ({
+    allTransferOriginData: set.allTransferOriginData,
+    allTransfer: set.allTransfer,
+  }));
 
   const { workLocation } = useUser();
 
+  const onOpen = useViewTransferModal((set) => set.onOpen);
+
   return (
     <Table>
-      <TableCaption>Showing </TableCaption>
+      <TableCaption>
+        Showing {allTransfer.length} out of {allTransferOriginData.length}{" "}
+        results
+      </TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[150px] text-sm">ID</TableHead>
-          <TableHead className="text-sm w-[250px]">FROM </TableHead>
-          <TableHead className="text-sm w-[250px]">TO</TableHead>
-          <TableHead className="text-sm w-[160px] text-center">
+          <TableHead className="w-[70px] text-sm">ID</TableHead>
+          <TableHead className="text-sm w-[230px]">FROM </TableHead>
+          <TableHead className="text-sm w-[230px]">TO</TableHead>
+          <TableHead className="text-sm w-[150px]">TRANSFER DATE</TableHead>
+          <TableHead className="text-sm w-[130px] text-center">
             TOTAL PARCELS
           </TableHead>
-          <TableHead className="text-sm text-center w-[160px]">
+          <TableHead className="text-sm text-center w-[130px]">
             TOTAL WEIGHTS
           </TableHead>
           <TableHead className="text-sm text-center">STATE</TableHead>
@@ -96,20 +108,23 @@ const TransferDetailTable = () => {
         {allTransfer.map((transfer, index) => (
           <TableRow key={index}>
             <TableCell className="text-sm">
-              {transfer.id.slice(0, 12)}...
+              {transfer.id.slice(0, 6)}...
             </TableCell>
-            <TableCell className="text-sm w-[250px]">
-              <div className="mb-2">{transfer.from.id},</div>
+            <TableCell className="text-sm w-[230px]">
+              <div className="mb-2">{convertLocationID(transfer.from.id)},</div>
               <div>{convertLocationToString(transfer.from)}</div>
             </TableCell>
-            <TableCell className="text-sm w-[250px]">
-              <div className="mb-2">{transfer.to.id},</div>
+            <TableCell className="text-sm w-[230px]">
+              <div className="mb-2">{convertLocationID(transfer.to.id)},</div>
               <div>{convertLocationToString(transfer.to)}</div>
             </TableCell>
-            <TableCell className="text-sm w-[160px] text-center">
+            <TableCell className="text-sm">
+              {format(new Date(transfer.date_transferred), "p P")}
+            </TableCell>
+            <TableCell className="text-sm w-[130px] text-center">
               {transfer.transfer_details.length}
             </TableCell>
-            <TableCell className="text-sm text-center w-[160px]">
+            <TableCell className="text-sm text-center w-[130px]">
               {transfer.transfer_details.reduce((acc, cur) => {
                 return cur.parcels.weight + acc;
               }, 0)}{" "}
@@ -119,7 +134,13 @@ const TransferDetailTable = () => {
               {convertTransferState(transfer, workLocation.id)}
             </TableCell>
             <TableCell className="text-sm w-[150px]">
-              <Button>View More</Button>
+              <Button
+                onClick={() => {
+                  onOpen(transfer);
+                }}
+              >
+                View More
+              </Button>
             </TableCell>
           </TableRow>
         ))}

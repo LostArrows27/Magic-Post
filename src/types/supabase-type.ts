@@ -319,6 +319,7 @@ export interface Database {
         Row: {
           created_staff: string
           date_transferred: string
+          date_verified: string | null
           from_location_id: string
           has_verfied: boolean
           id: string
@@ -328,6 +329,7 @@ export interface Database {
         Insert: {
           created_staff: string
           date_transferred?: string
+          date_verified?: string | null
           from_location_id: string
           has_verfied?: boolean
           id?: string
@@ -337,6 +339,7 @@ export interface Database {
         Update: {
           created_staff?: string
           date_transferred?: string
+          date_verified?: string | null
           from_location_id?: string
           has_verfied?: boolean
           id?: string
@@ -379,7 +382,38 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_destination_parcels_from_gd: {
+        Args: {
+          current_location_id_param: string
+        }
+        Returns: {
+          id: string
+          type: Database["public"]["Enums"]["building"]
+          manager_id: string
+          province_id: number
+          district_id: number
+          province_meta_data: Json
+          district_meta_data: Json
+          created_at: string
+          count_parcels: number
+        }[]
+      }
+      get_destination_parcels_from_tk: {
+        Args: {
+          current_location_id_param: string
+        }
+        Returns: {
+          id: string
+          type: Database["public"]["Enums"]["building"]
+          manager_id: string
+          province_id: number
+          district_id: number
+          province_meta_data: Json
+          district_meta_data: Json
+          created_at: string
+          count_parcels: number
+        }[]
+      }
     }
     Enums: {
       building: "tap_ket" | "giao_dich"
