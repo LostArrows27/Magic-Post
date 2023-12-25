@@ -36,13 +36,13 @@ export default function StaffDisplay({work_place_id, work_place_type}: {work_pla
         <div className='flex items-center justify-between'>
           <h4 className="text-xl font-semibold tracking-tight ml-3">Staffs</h4>
           <Button
-              variant="default"
-              className="text-base bg-green-500 hover:bg-green-400"
+              variant="link"
+              className="text-xl font-bold tracking-tight"
               onClick={async () => {
                   router.push("/office/new-staff");
               }}
           >
-            New Staff <UserPlus className='ml-1 scale-[80%]'/>
+            + New Staff
           </Button>        
         </div>
         <Table>
