@@ -72,7 +72,7 @@ const AddressFormField = ({
     if (currentStep === 1 && sender) {
       form.setValue("province_id", sender?.province_id);
       form.setValue("district_id", sender?.district_id);
-      form.setValue("ward_id", sender?.ward_id);
+      form.setValue("ward_id", sender?.ward_id!);
       if (sender?.subward_id) {
         form.setValue("subward_id", sender?.subward_id);
       }
@@ -81,7 +81,7 @@ const AddressFormField = ({
     if (currentStep === 2 && receiver) {
       form.setValue("province_id", receiver?.province_id);
       form.setValue("district_id", receiver?.district_id);
-      form.setValue("ward_id", receiver?.ward_id);
+      form.setValue("ward_id", receiver?.ward_id!);
       if (receiver?.subward_id) {
         form.setValue("subward_id", receiver?.subward_id);
       }

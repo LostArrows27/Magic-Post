@@ -9,15 +9,16 @@ import { format } from "date-fns";
 
 export const dynamic = "force-dynamic";
 interface UserData {
-    email: string;
-    password: string;
-    email_confirm: boolean;
-    user_metadata: {
-      province?: string;
-      district?: string;
-      type: string;
-    };
+  email: string;
+  password: string;
+  email_confirm: boolean;
+  user_metadata: {
+    province?: string;
+    district?: string;
+    type: string;
+  };
 }
+
 export async function POST(request: Request) {
   const formData: tNewStaffSchema = await request.json();
   formData.dob = new Date(formData.dob);
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: zodError });
   }
 
-  const supabaseRouteHandler = createRouteHandlerClient<Database>({cookies})
+  const supabaseRouteHandler = createRouteHandlerClient<Database>({ cookies });
 
   const full_name = formData.full_name;
   const phone_number = formData.phone_number;
@@ -88,19 +89,19 @@ export async function POST(request: Request) {
     }@magic-post.com`;
     password = `staff_${department}_${provinceId}_${districtId}_${count + 1}`;
   }
-  const userData :UserData = {
-        email,
-        password,
-        email_confirm: true,
-        user_metadata: {
-            province: data.user.user_metadata.province,
-            type: `${department}_staff`,
-        }
-  }
-  if(districtId && department === "gd"){
+  const userData: UserData = {
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: {
+      province: data.user.user_metadata.province,
+      type: `${department}_staff`,
+    },
+  };
+  if (districtId && department === "gd") {
     userData.user_metadata.district = data.user.user_metadata.district;
   }
-  
+
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
     process.env.SUPABASE_SERVICE_ROLE_KEY as string,
@@ -114,8 +115,8 @@ export async function POST(request: Request) {
   );
   const res = await supabase.auth.admin.createUser(userData);
 
-  const {error:profileError} = await supabase.from("staffs").insert({
-    id:res.data.user?.id,
+  const { error: profileError } = await supabase.from("staffs").insert({
+    id: res.data.user?.id,
     full_name,
     home_town,
     phone_number,
@@ -125,5 +126,8 @@ export async function POST(request: Request) {
     work_place_id: workplaceId,
   });
 
-  return NextResponse.json({ data: {...res.data,email,password }, error: res.error?.message || profileError?.message });
+  return NextResponse.json({
+    data: { ...res.data, email, password },
+    error: res.error?.message || profileError?.message,
+  });
 }

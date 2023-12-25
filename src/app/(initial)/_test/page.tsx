@@ -98,7 +98,7 @@ import { useEffect, useState } from "react";
 //   console.error("An error occurred:", error);
 // }
 
-// TODO: create location based on admin
+// NOTE: create location based on admin
 
 // try {
 //   const {
@@ -154,7 +154,7 @@ import { useEffect, useState } from "react";
 //   console.error("An error occurred:", error);
 // }
 
-// TODO: create admin account for each province and district
+// NOTE: create admin account for each province and district
 // try {
 //   // Fetch all provinces
 //   const provincesData = await getProvinceList();
@@ -203,7 +203,7 @@ import { useEffect, useState } from "react";
 //   console.error("An error occurred:", error);
 // }
 
-// TODO: delete all users
+// NOTE: delete all users
 // const {
 //   data: { users },
 //   error,
@@ -220,7 +220,7 @@ import { useEffect, useState } from "react";
 //   }
 // }
 
-// TODO: create users
+// NOTE: create users
 // const { data } = (await viettelAPI.get("/setting/listallprovince")) as {
 //   data: Province[];
 // };
@@ -238,7 +238,7 @@ import { useEffect, useState } from "react";
 //   }
 // }
 
-// TODO: update all user password to match email
+// NOTE: update all user password to match email
 // const {
 //   data: { users },
 //   error,
@@ -293,10 +293,10 @@ type Ward = {
 //     );
 //   });
 
-//   // TODO: fake user data (based on user_metadata)
-//   // TODO: add fake user data to profiles table (based on user_metadata)
-//   // TODO: update location managers => QUERY SQL
-//   // TODO: add type to profiles
+//   // NOTE: fake user data (based on user_metadata)
+//   // NOTE: add fake user data to profiles table (based on user_metadata)
+//   // NOTE: update location managers => QUERY SQL
+//   // NOTE: add type to profiles
 //   const handleClick = async () => {
 
 //   };
