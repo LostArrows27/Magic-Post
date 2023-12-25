@@ -32,6 +32,7 @@ export default function LocationsTools() {
   }, [filter, minFirst]);
   return (
     <div className="flex gap-x-3">
+    
       <Button
         onClick={() => {
           router.refresh();

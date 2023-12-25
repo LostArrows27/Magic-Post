@@ -15,17 +15,22 @@ import { useCallback, useEffect, useState, useMemo, use } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { useTransferOrdersList } from "@/hooks/useTransferOrdersList";
 import OrdersTools from "./orders-tools";
-import { useTransferConfirmModal } from "@/hooks/useTransferConfirmModal";
+import {
+  TransferState,
+  useTransferConfirmModal,
+} from "@/hooks/useTransferConfirmModal";
 import { cn } from "@/lib/utils";
 import { useVietNamGeography } from "@/hooks/useVietNamGeography";
 import convertLocationIdToString from "@/lib/convertLocationIdToString";
 
 export default function OrderList({
   parcels,
+  type,
 }: {
   parcels: (Parcel & {
     checked: boolean;
   })[];
+  type: TransferState;
 }) {
   const {
     orders,
@@ -179,7 +184,12 @@ export default function OrderList({
               setInvalid(true);
             } else {
               setInvalid(false);
-              onOpen("gd=>tk");
+              onOpen(
+                type,
+                orders.filter((o) => o.checked),
+                totalWeight,
+                totalFee
+              );
             }
           }}
         >

@@ -1,6 +1,12 @@
 "use client";
 
-import { ArrowBigDownDash, ArrowBigUpDash, RefreshCw } from "lucide-react";
+import {
+  ArrowBigDownDash,
+  ArrowBigUpDash,
+  Home,
+  HomeIcon,
+  RefreshCw,
+} from "lucide-react";
 import { Button } from "../ui/button";
 import {
   Select,
@@ -12,12 +18,14 @@ import {
 import { useEffect, useState } from "react";
 import { useTransferOrdersList } from "@/hooks/useTransferOrdersList";
 import { useRouter } from "next/navigation";
+import { useTransferLocations } from "@/hooks/useTransferLocations";
 type Filters = "weight" | "fee" | "time" | "";
 export default function OrdersTools() {
   const { orders, displayOrders, setDisplayOrders } = useTransferOrdersList();
+  const { selectedLocation, setSelectedLocation } = useTransferLocations();
   const [minFirst, setMinFirst] = useState(true);
   const router = useRouter();
-  const [filter, setFilter] = useState<Filters>(''); // ["weight","fee","time"
+  const [filter, setFilter] = useState<Filters>(""); // ["weight","fee","time"
   useEffect(() => {
     if (filter) {
       // sort by filter if minfirst then asc else desc
@@ -39,16 +47,28 @@ export default function OrdersTools() {
   }, [filter, minFirst]);
   return (
     <div className="flex gap-x-3">
-      <Button
-        onClick={() => {
-          router.refresh();
-          setMinFirst(true);
-          setFilter('');
-        }}
-        size={"icon"}
-      >
-        <RefreshCw />
-      </Button>
+      {selectedLocation && (
+        <Button
+          onClick={() => {
+            setSelectedLocation(null);
+          }}
+          size={"icon"}
+        >
+          <HomeIcon />
+        </Button>
+      )}
+      {!selectedLocation && (
+        <Button
+          onClick={() => {
+            router.refresh();
+            setMinFirst(true);
+            setFilter("");
+          }}
+          size={"icon"}
+        >
+          <RefreshCw />
+        </Button>
+      )}
       <Button
         onClick={() => {
           setMinFirst(!minFirst);
@@ -63,8 +83,8 @@ export default function OrdersTools() {
         }}
         value={filter}
       >
-        <SelectTrigger  className="w-[180px] bg-primary text-primary-foreground">
-          <SelectValue placeholder="Choose filter"  />
+        <SelectTrigger className="w-[180px] bg-primary text-primary-foreground">
+          <SelectValue placeholder="Choose filter" />
         </SelectTrigger>
         <SelectContent className="bg-primary text-primary-foreground">
           <SelectItem value="weight">Weight</SelectItem>

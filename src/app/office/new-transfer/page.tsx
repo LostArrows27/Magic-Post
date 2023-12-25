@@ -15,7 +15,7 @@ export default async function NewTransferPage() {
     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
     process.env.SUPABASE_SERVICE_ROLE_KEY as string
   );
-   const supabaseServer = createServerComponentClient<Database>({cookies});
+  const supabaseServer = createServerComponentClient<Database>({ cookies });
   const { data } = await supabaseServer.auth.getUser();
   let parcels1: (Parcel & { checked: boolean })[] = [];
   let parcels2: (Parcel & { checked: boolean })[] = [];
@@ -46,22 +46,7 @@ export default async function NewTransferPage() {
           };
         });
       }
-      const { data: parcels2Data, error: error2 } = await supabase
-        .from("parcels")
-        .select("*")
-        .eq("current_location_id", `${department}_${province}_${district}`)
-        .eq("state", "sẵn sàng giao hàng");
-      if (error2) {
-        throw error2;
-      }
-      if (parcels2Data) {
-        parcels2 = parcels2Data.map((parcel) => {
-          return {
-            ...parcel,
-            checked: false,
-          };
-        });
-      }
+     
     } catch (error) {
       return <TransferPageError />;
     }
@@ -113,33 +98,11 @@ export default async function NewTransferPage() {
   if (user_role === "gd_staff") {
     return (
       <div className="p-10 w-full  pt-6 min-h-full h-fit bg-border flex flex-col ">
-        <Tabs defaultValue="customers" className="w-full">
-          <div className="flex">
-            <div className="mb-4 flex justify-between w-full">
-              <h1 className="font-bold text-3xl ">Create a Transfer</h1>
-            </div>
-            <TabsList className="w-[300px] p-[6px] h-fit ">
-              <TabsTrigger
-                className="flex-1 text-base font-bold"
-                value="customers"
-              >
-                Customers
-              </TabsTrigger>
-              <TabsTrigger
-                className="flex-1 text-base font-bold"
-                value="warehouse"
-              >
-                WareHouse
-              </TabsTrigger>
-            </TabsList>
-          </div>
-          <TabsContent value="customers">
-            <OrderList parcels={parcels1} />
-          </TabsContent>
-          <TabsContent value="warehouse">
-            <OrderList parcels={parcels2} />
-          </TabsContent>
-        </Tabs>
+        <div className="mb-4 flex justify-between w-full">
+          <h1 className="font-bold text-3xl ">Create a Transfer</h1>
+        </div>
+
+        <OrderList parcels={parcels1} type={"gd=>tk"} />
       </div>
     );
   }
@@ -153,11 +116,8 @@ export default async function NewTransferPage() {
               <h1 className="font-bold text-3xl ">Create a Transfer</h1>
             </div>
             <TabsList className="w-[300px] p-[6px] h-fit ">
-              <TabsTrigger
-                className="flex-1 text-base font-bold"
-                value="hub"
-              >
-                 Hub
+              <TabsTrigger className="flex-1 text-base font-bold" value="hub">
+                Hub
               </TabsTrigger>
               <TabsTrigger
                 className="flex-1 text-base font-bold"
@@ -168,10 +128,10 @@ export default async function NewTransferPage() {
             </TabsList>
           </div>
           <TabsContent value="hub">
-            <LocationLists locationsData={locations1} />
+            <LocationLists locationsData={locations1} type={"tk=>tk"} />
           </TabsContent>
           <TabsContent value="central-hub">
-            <LocationLists locationsData={locations2} />
+            <LocationLists locationsData={locations2} type={"tk=>gd"} />
           </TabsContent>
         </Tabs>
       </div>

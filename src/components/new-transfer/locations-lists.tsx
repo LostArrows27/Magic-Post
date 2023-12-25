@@ -12,10 +12,7 @@ import SearchOrder from "./search-order";
 import { Button } from "../ui/button";
 import { Location, Parcel } from "@/types/supabase-table-type";
 import { useCallback, useEffect, useState, useMemo, use } from "react";
-import { Checkbox } from "../ui/checkbox";
-import { useTransferOrdersList } from "@/hooks/useTransferOrdersList";
-import OrdersTools from "./orders-tools";
-import { useTransferConfirmModal } from "@/hooks/useTransferConfirmModal";
+import { TransferState, useTransferConfirmModal } from "@/hooks/useTransferConfirmModal";
 import { cn } from "@/lib/utils";
 import { useVietNamGeography } from "@/hooks/useVietNamGeography";
 import convertLocationIdToString from "@/lib/convertLocationIdToString";
@@ -25,22 +22,86 @@ import {
   TransferLocations,
   useTransferLocations,
 } from "@/hooks/useTransferLocations";
+import OrderList from "./order-list";
+import { useSessionContext } from "@supabase/auth-helpers-react";
+import { useUser } from "@/hooks/useUser";
 
 export default function LocationLists({
   locationsData,
+  type
 }: {
   locationsData: TransferLocations;
+  type: TransferState;
 }) {
-  const { locations, displayLocations, setDisplayLocations, setLocations } =
+  const { locations, displayLocations, setDisplayLocations, setLocations,selectedLocation ,setSelectedLocation} =
     useTransferLocations();
   const { district, ward, province } = useVietNamGeography();
-
-
+  const [orders, setOrders] = useState<(Parcel & {checked:boolean})[]>([]);
+const {userDetails} = useUser()
+const {supabaseClient} = useSessionContext()
   useEffect(() => {
     setLocations(locationsData);
     setDisplayLocations(locationsData);
   }, [locationsData]);
 
+  useEffect(() => {
+    setSelectedLocation(null)
+  },[])
+  useEffect(() => {
+    if(selectedLocation) {
+        //fetch parcels depend on type
+        if(type === 'tk=>tk') {
+
+        (async () => {
+          const { data, error } = await supabaseClient
+            .from("parcels")
+            .select("*")
+            .eq("current_location_id", userDetails?.work_place_id)
+            .eq("destination_location_id", selectedLocation.id)
+            .eq("state", "đã nhận từ điểm giao dịch gửi");
+          if (error) {
+            console.log(error);
+          }
+          if (data) {
+            const newData = data.map((parcel) => {
+              return {
+                ...parcel,
+                checked: false,
+              };
+            });
+            setOrders(newData);
+          }
+        })();
+      }
+      else if (type === 'tk=>gd') {
+        (async () => {
+          const { data, error } = await supabaseClient
+            .from("parcels")
+            .select("*")
+            .eq("current_location_id", userDetails?.work_place_id)
+            .eq("destination_location_id", selectedLocation.id)
+            .eq("state", "đã nhận từ điểm tập kết gửi");
+          if (error) {
+            console.log(error);
+          }
+          if (data) {
+            const newData = data.map((parcel) => {
+              return {
+                ...parcel,
+                checked: false,
+              };
+            });
+            setOrders(newData);
+          }
+        })();
+      }
+
+    }
+  },[selectedLocation])
+
+  if(selectedLocation ) { 
+    return <OrderList parcels={orders} type={type} />
+  }
   return (
     <section className="bg-background w-full rounded-xl h-fit flex flex-col justify-center items-center p-5">
       <div className="flex w-full pb-5  justify-between">
@@ -62,7 +123,9 @@ export default function LocationLists({
           {displayLocations.length > 0 ? (
             displayLocations.map((loc) => {
               return (
-                <TableRow key={loc.id}>
+                <TableRow key={loc.id} onClick={() => {
+                  setSelectedLocation(loc)
+                }}>
                   <TableCell className="max-w-[100px] w-[100px] truncate">
                     {loc.id}
                   </TableCell>
