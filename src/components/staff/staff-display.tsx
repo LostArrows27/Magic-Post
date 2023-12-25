@@ -4,11 +4,15 @@ import { useSessionContext } from '@supabase/auth-helpers-react';
 import { useEffect } from 'react';
 import { useStaff } from '@/hooks/useStaff';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Info } from 'lucide-react';
+import { Info, UserPlus } from 'lucide-react';
+import { Button } from '../ui/button';
+import { useRouter } from 'next/navigation';
 
 export default function StaffDisplay({work_place_id, work_place_type}: {work_place_id: string | null | undefined; work_place_type: string}) {
   let role = work_place_type === "tap_ket" ? "tk_staff": "gd_staff";    
   
+  const router = useRouter();
+
   const {
     supabaseClient: supabase,
   } = useSessionContext();
@@ -29,7 +33,18 @@ export default function StaffDisplay({work_place_id, work_place_type}: {work_pla
 
   return (
     <div className='space-y-4'>
-        <h4 className="text-xl font-semibold tracking-tight ml-3">Staffs</h4>
+        <div className='flex items-center justify-between'>
+          <h4 className="text-xl font-semibold tracking-tight ml-3">Staffs</h4>
+          <Button
+              variant="default"
+              className="text-base bg-green-500 hover:bg-green-400"
+              onClick={async () => {
+                  router.push("/office/new-staff");
+              }}
+          >
+            New Staff <UserPlus className='ml-1 scale-[80%]'/>
+          </Button>        
+        </div>
         <Table>
             <TableHeader>
                 <TableRow>

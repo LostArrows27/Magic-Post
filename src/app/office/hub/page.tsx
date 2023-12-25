@@ -6,8 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useVietNamGeography } from "@/hooks/useVietNamGeography";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { useState } from "react";
+import { useLocationDetail } from "@/hooks/useLocationDetail";
 
 export default function HubPage() {
+    const { onClose } = useLocationDetail();
+
     const { province } = useVietNamGeography();
 
     const [selectedZone, setSelectedZone] = useState("All");
@@ -22,8 +25,8 @@ export default function HubPage() {
             <Tabs defaultValue="central-hub" className="">
               <div className="flex justify-between mb-4">
                 <TabsList>
-                  <TabsTrigger value="central-hub">Central Hub</TabsTrigger>
-                  <TabsTrigger value="hub">Hub</TabsTrigger>
+                  <TabsTrigger value="central-hub" onClick={() => onClose()}>Central Hub</TabsTrigger>
+                  <TabsTrigger value="hub" onClick={() => onClose()}>Hub</TabsTrigger>
                 </TabsList>
                 <div className='flex gap-2 fade-in'>
                   <Select onValueChange={(value) => {setSelectedZone(value)}} defaultValue="All">
