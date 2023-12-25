@@ -20,7 +20,6 @@ export async function middleware(req: NextRequest) {
     if (
       user.user_metadata.type === "leader" &&
       pathname !== "/office/dashboard" &&
-      pathname !== "/office/staffs" &&
       pathname !== "/office/new-staff" &&
       pathname !== "/office/orders" &&
       pathname !== "/office/transfers" &&

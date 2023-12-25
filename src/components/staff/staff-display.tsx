@@ -6,7 +6,7 @@ import { useStaff } from '@/hooks/useStaff';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Info } from 'lucide-react';
 
-export default function StaffDisplay({work_place_id, work_place_type}: {work_place_id: string; work_place_type: string}) {
+export default function StaffDisplay({work_place_id, work_place_type}: {work_place_id: string | null | undefined; work_place_type: string}) {
   let role = work_place_type === "tap_ket" ? "tk_staff": "gd_staff";    
   
   const {
@@ -43,7 +43,6 @@ export default function StaffDisplay({work_place_id, work_place_type}: {work_pla
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {staffs.length > 0 ? (
                     <>
                     {staffs.map((staff, index) => (
                         <TableRow key={staff.id}>
@@ -57,11 +56,7 @@ export default function StaffDisplay({work_place_id, work_place_type}: {work_pla
                         </TableRow>
                     ))}
                     </>
-                ) : (
-                    <div className="ml-4 mt-2">
-                        No record
-                    </div>
-                )}
+
             </TableBody>
         </Table>
     </div>

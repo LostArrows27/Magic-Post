@@ -16,12 +16,6 @@ export const NavItems: NavItem[] = [
                 color: "text-pink-500",
             },
             {
-                title: "Central Hub",
-                icon: Database,
-                color: "text-pink-500",
-                href: "/office/central-hub",
-            },
-            {
                 title: "Hub Manager",
                 icon: Cylinder,
                 color: "text-pink-500",
