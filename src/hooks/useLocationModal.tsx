@@ -1,17 +1,17 @@
 import { Staff } from "@/types/supabase-table-type";
 import { create } from "zustand";
 
-type LocationModalProps = {
+type StaffModalProps = {
   isOpen: boolean;
   onOpen: (manager: Staff) => void;
   onClose: () => void;
   reset: () => void;
-  manager: Staff;
+  staff: Staff;
 };
 
 const initialValue = {
   isOpen: false,
-  manager: {
+  staff: {
     created_at: "",
     dob: "",
     full_name: "",
@@ -24,9 +24,9 @@ const initialValue = {
   } as unknown as Staff,
 };
 
-export const useLocationModal = create<LocationModalProps>((set) => ({
+export const useStaffModal = create<StaffModalProps>((set) => ({
   ...initialValue,
-  onOpen: (manager) => set({ isOpen: true, manager: manager }),
+  onOpen: (staff) => set({ isOpen: true, staff: staff }),
   onClose: () => set({ isOpen: false }),
   reset: () => set({ ...initialValue }),
 }));

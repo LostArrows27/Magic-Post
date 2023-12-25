@@ -1,29 +1,17 @@
 "use client"
 
 import { useSessionContext } from '@supabase/auth-helpers-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from '@/hooks/useLocation';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { useVietNamGeography } from '@/hooks/useVietNamGeography';
 import LocationDetail from './location-detail';
 import { useLocationDetail } from '@/hooks/useLocationDetail';
 import { cn } from '@/lib/utils';
 
-export default function LocationDisplay({ locationType }: { locationType: string }) {
+export default function LocationDisplay({ locationType, selectedZone }: { locationType: string, selectedZone: string }) {
   const { isOpen, onOpen } = useLocationDetail();
-
-  const [selectedZone, setSelectedZone] = useState("All");
-
-  const { province } = useVietNamGeography();
-  
+    
   const {
     supabaseClient: supabase,
   } = useSessionContext();
@@ -45,22 +33,9 @@ export default function LocationDisplay({ locationType }: { locationType: string
   return (
     <div className='space-y-4'>
       <div className={cn(
-        `fade-in mt-8`,
+        `fade-in mt-4`,
         !isOpen ? "" : "hidden"
       )}>
-        <div className='flex gap-2 mt-8 mb-4 fade-in'>
-          <Select onValueChange={(value) => {setSelectedZone(value)}} defaultValue="All">
-            <SelectTrigger className="w-[220px]">
-              <SelectValue placeholder="Select a zone" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectItem value="All">All</SelectItem>
-                {province?.map((zone) => (
-                  <SelectItem key={zone.PROVINCE_ID} value={zone.PROVINCE_ID.toString()}>{zone.PROVINCE_NAME}</SelectItem>
-                ))}
-            </SelectContent>
-          </Select>
-        </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 fade-in">
               {locations.map((item) => (
                 selectedZone === "All" || selectedZone === item.province_meta_data.PROVINCE_ID.toString()) && (

@@ -4,7 +4,7 @@ import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 
 const LocationModal = () => {
-  const { isOpen, onClose, manager } = useLocationModal((set) => set);
+  const { isOpen, onClose, manager, hub_id, hub_type } = useLocationModal((set) => set);
 
   const onChange = (open: boolean) => {
     if (!open) {
@@ -15,10 +15,20 @@ const LocationModal = () => {
     <Modal
       isOpen={isOpen}
       onChange={onChange}
-      className="max-w-[600px] bg-layout py-8 !px-0 !rounded-3xl gap-0"
+      className="max-w-[1000px] bg-layout py-8 !px-0 !rounded-3xl gap-0"
     >
       <DialogHeader className="w-full px-9 mb-4">
-        <DialogTitle className="text-2xl">Detailed info</DialogTitle>
+        <DialogTitle className="text-2xl">
+          {hub_type === "tap_ket" ? (
+            <>
+              Central Hub: {hub_id}
+            </>
+          ) : (
+            <>
+              Hub: {hub_id}
+            </>
+          )}
+        </DialogTitle>
         <DialogDescription>
             Everything you need to know about this hub
         </DialogDescription>      
