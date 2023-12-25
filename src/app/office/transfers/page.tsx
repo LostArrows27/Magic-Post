@@ -17,11 +17,17 @@ export default async function TransfersPage() {
 
   let workingLocation;
 
-  if (user?.user_metadata.type === "gd_staff") {
+  if (
+    user?.user_metadata.type === "gd_staff" ||
+    user?.user_metadata.type === "gd_admin"
+  ) {
     workingLocation = `gd_${user?.user_metadata.province?.PROVINCE_ID}_${user?.user_metadata.district?.DISTRICT_ID}`;
   }
 
-  if (user?.user_metadata.type === "tk_staff") {
+  if (
+    user?.user_metadata.type === "tk_staff" ||
+    user?.user_metadata.type === "tk_admin"
+  ) {
     workingLocation = `tk_${user?.user_metadata.province?.PROVINCE_ID}`;
   }
 

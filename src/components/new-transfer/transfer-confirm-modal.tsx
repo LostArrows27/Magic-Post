@@ -38,7 +38,8 @@ export default function TransferConfirmModal() {
   const [locations, setLocations] = useState<Location[]>([]);
   const { supabaseClient } = useSessionContext();
   const [selectedLocation, setSelectedLocation] = useState<string>();
-  const {setSelectedLocation:setLocationTK} = useTransferLocations();
+  const { setSelectedLocation: setLocationTK, selectedLocation: locationTK } =
+    useTransferLocations();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const onChange = (open: boolean) => {
@@ -53,7 +54,8 @@ export default function TransferConfirmModal() {
         const { data, error } = await supabaseClient
           .from("locations")
           .select("*")
-          .eq("type", "tap_ket");
+          .eq("type", "tap_ket")
+          .order("created_at", { ascending: true });
         if (error) {
           console.log(error);
         }
@@ -70,7 +72,8 @@ export default function TransferConfirmModal() {
           .eq(
             "province_id",
             (userDetails.work_place_id as string).split("_")[1]
-          );
+          )
+          .order("created_at", { ascending: true });
         if (error) {
           console.log(error);
         }
@@ -91,6 +94,10 @@ export default function TransferConfirmModal() {
   useEffect(() => {
     if (state === "gd=>tk") {
       setSelectedLocation(`tk_${userDetails?.work_place_id?.split("_")[1]}`);
+    } else if (state === "tk=>tk") {
+      setSelectedLocation(`tk_${locationTK?.province_id}`);
+    } else if (state === "tk=>gd") {
+      setSelectedLocation(`${locationTK?.id}`);
     }
   }, [state]);
   const handleConfirmTransfer = async () => {
@@ -106,8 +113,8 @@ export default function TransferConfirmModal() {
       toast.error(res.data.error);
     }
     if (res.data.success) {
-      router.refresh()
-      setLocationTK(null)
+      router.refresh();
+      setLocationTK(null);
       toast.success(res.data.success);
       onClose();
     }
@@ -135,7 +142,6 @@ export default function TransferConfirmModal() {
         <div className="gap-x-2 flex items-center">
           <Select
             value={selectedLocation}
-            disabled={state === "gd=>tk" ? true : false}
             onValueChange={(value) => {
               setSelectedLocation(value);
             }}

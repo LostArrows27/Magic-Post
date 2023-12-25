@@ -22,6 +22,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useVietNamGeography } from "@/hooks/useVietNamGeography";
 import convertLocationIdToString from "@/lib/convertLocationIdToString";
+import { useViewParcelInformations } from "@/hooks/useViewParcelInformations";
 
 export default function OrderList({
   parcels,
@@ -43,7 +44,7 @@ export default function OrderList({
     setTotalWeight,
   } = useTransferOrdersList();
   const { district, ward, province } = useVietNamGeography();
-
+  const { onOpen: onOpenParcelInfor } = useViewParcelInformations();
   const { onOpen } = useTransferConfirmModal();
   const [change, setChange] = useState(false);
   const [invalid, setInvalid] = useState(false);
@@ -113,7 +114,12 @@ export default function OrderList({
           {displayOrders.length > 0 ? (
             displayOrders.map((order) => {
               return (
-                <TableRow key={order.id}>
+                <TableRow
+                  key={order.id}
+                  onClick={() => {
+                    onOpenParcelInfor(order);
+                  }}
+                >
                   <TableCell className="w-[60px]  ">
                     <Checkbox
                       checked={order.checked}
