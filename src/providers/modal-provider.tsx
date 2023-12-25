@@ -3,6 +3,7 @@
 import NewStaffAccountModal from "@/components/new-staff-ui/new-staff-account-modal";
 import LocationModal from "@/components/location/staff-modal";
 import { useState, useEffect } from "react";
+import ViewTransferModal from "@/components/view-transfer-modal/ViewTransferModal";
 
 const ModalProviders = () => {
   // Prevent modal open when SSR
@@ -16,10 +17,11 @@ const ModalProviders = () => {
 
   return (
     <>
-      <LocationModal/>
-      <NewStaffAccountModal/>
+      <ViewTransferModal />
+      <LocationModal />
+      <NewStaffAccountModal />
     </>
-  )
+  );
 };
 
 export default ModalProviders;
