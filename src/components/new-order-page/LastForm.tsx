@@ -113,7 +113,7 @@ const LastForm = () => {
 
       setLoading(false);
       toast.success("Created order successfully");
-      router.push("/office/orders");
+      window.location.reload();
     } catch (error: any) {
       setLoading(false);
       toast.error(error.message);

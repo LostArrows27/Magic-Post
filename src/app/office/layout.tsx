@@ -4,17 +4,17 @@ import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
 import VietnamGeographyProvider from "@/providers/vietnam-geography-provider";
 import ModalProviders from "@/providers/modals-provider";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Location, Staff, StaffData } from "@/types/supabase-table-type";
+import { Database } from "@/types/supabase-type";
+import { supabaseServer } from "@/utils/supabaseServer";
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const supabaseClient = createServerComponentClient({ cookies });
+  const supabaseClient = supabaseServer();
 
   const {
     data: { user },
