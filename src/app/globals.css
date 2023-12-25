@@ -12,6 +12,10 @@ body,
   --plyr-range-fill-background: #3dbda7;
 }
 
+.remove-button>button {
+  display: none;
+}
+
 .center {
   display: flex;
   justify-content: center;

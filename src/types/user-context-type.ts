@@ -13,8 +13,8 @@ type UserSystem = Omit<User, "user_metadata"> & {
 type UserContextType = {
   accessToken: string | null;
   user: UserSystem | null;
-  workLocation: Location | null;
-  userDetails: Staff | null;
+  workLocation: Location;
+  userDetails: Staff;
 };
 
 export type { UserContextType, UserSystem };
