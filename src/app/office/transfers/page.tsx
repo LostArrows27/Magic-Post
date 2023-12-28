@@ -3,6 +3,7 @@ import { UserSystem } from "@/types/user-context-type";
 import { redirect } from "next/navigation";
 import { TransferWithParcelData } from "@/types/supabase-table-type";
 import AllTransfers from "@/components/transfers-page/AllTransfers";
+import { wait } from "@/lib/wait";
 
 export default async function TransfersPage() {
   const supabase = supabaseServer();
