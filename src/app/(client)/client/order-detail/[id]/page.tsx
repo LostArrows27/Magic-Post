@@ -252,7 +252,10 @@ const OrderDetail = async ({ params: { id } }: Props) => {
                 Hàng hóa sẽ được chuyển qua 2 điểm tập kết tương ứng với địa chỉ
                 người gửi và nhận
               </li>
-              <li>Người gửi cam kết hàng gửi là tài sản hợp pháp</li>
+              <li>
+                Người nhận sẽ phải ra điểm giao dịch gần nhất để lấy hàng nếu
+                nhân viên giao hàng không liên hệ để gửi hàng cho người nhận
+              </li>
               <li>
                 Người gửi tra cứu quá trình vận đơn bằng cách quét mã QR trên
                 màn hình hoặc Bar Code

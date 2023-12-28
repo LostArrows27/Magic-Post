@@ -196,6 +196,7 @@ export interface Database {
         Row: {
           created_at: string
           dob: string
+          email: string | null
           full_name: string
           gender: Database["public"]["Enums"]["gender"]
           home_town: string
@@ -207,6 +208,7 @@ export interface Database {
         Insert: {
           created_at?: string
           dob: string
+          email?: string | null
           full_name: string
           gender: Database["public"]["Enums"]["gender"]
           home_town: string
@@ -218,6 +220,7 @@ export interface Database {
         Update: {
           created_at?: string
           dob?: string
+          email?: string | null
           full_name?: string
           gender?: Database["public"]["Enums"]["gender"]
           home_town?: string
@@ -428,7 +431,7 @@ export interface Database {
         | "đã nhận từ điểm tập kết đích"
         | "sẵn sàng giao hàng"
         | "đã giao"
-        | "đã trả lại điểm tập kết đích"
+        | "đã trả lại điểm giao dịch đích"
       role: "leader" | "tk_admin" | "gd_admin" | "tk_staff" | "gd_staff"
     }
     CompositeTypes: {
