@@ -1,5 +1,22 @@
 import { Parcel } from "@/types/supabase-table-type";
 
+function convertToScore(state: string) {
+  switch (state) {
+    case "đã nhận từ khách hàng":
+      return 1;
+    case "đã nhận từ điểm tập kết đích":
+      return 2;
+    case "đã trả lại điểm giao dịch đích":
+      return 3;
+    case "sẵn sàng giao hàng":
+      return 4;
+    case "đã giao":
+      return 5;
+    default:
+      return 0;
+  }
+}
+
 export function filterOrderByState(
   type:
     | "all"
@@ -33,7 +50,7 @@ export function filterOrderByState(
 }
 
 export function filterOrderBySort(
-  type: "weight" | "fee" | "time" | "name",
+  type: "weight" | "fee" | "time" | "name" | "state",
   allOrder: Parcel[],
   order: "asc" | "desc"
 ) {
@@ -69,9 +86,27 @@ export function filterOrderBySort(
     }
   }
 
+  if (type === "state") {
+    if (order === "asc") {
+      return allOrder.sort((a, b) => {
+        const scoreA = convertToScore(a.state);
+        const scoreB = convertToScore(b.state);
+        return scoreA - scoreB;
+      });
+    } else {
+      return allOrder.sort((a, b) => {
+        const scoreA = convertToScore(a.state);
+        const scoreB = convertToScore(b.state);
+        return scoreB - scoreA;
+      });
+    }
+  }
+
   if (order === "asc") {
     return allOrder.sort((a, b) => a.weight - b.weight);
   } else {
     return allOrder.sort((a, b) => b.weight - a.weight);
   }
+
+  // order.state is 5 of this:
 }

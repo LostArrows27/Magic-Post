@@ -20,9 +20,9 @@ const FilterOrder = () => {
 
   const [direction, setDirection] = useState<"asc" | "desc">("asc");
 
-  const [sortType, setSortType] = useState<"weight" | "fee" | "time" | "name">(
-    "name"
-  );
+  const [sortType, setSortType] = useState<
+    "weight" | "fee" | "time" | "name" | "state"
+  >("name");
 
   const { allOrder, setAllOrder } = useAllOrder((state) => ({
     allOrder: state.allOrder,
@@ -43,8 +43,11 @@ const FilterOrder = () => {
             <span>New Order</span>
           </Button>
           <Select
-            onValueChange={(value: "weight" | "fee" | "time") => {
+            onValueChange={(
+              value: "weight" | "fee" | "time" | "state" | "name"
+            ) => {
               const sortOrder = filterOrderBySort(value, allOrder, direction);
+              setSortType(value);
               setAllOrder(sortOrder);
             }}
           >
@@ -56,11 +59,13 @@ const FilterOrder = () => {
               <SelectItem value="weight">Weight</SelectItem>
               <SelectItem value="fee">Fee</SelectItem>
               <SelectItem value="time">Time</SelectItem>
+              <SelectItem value="state">State</SelectItem>
             </SelectContent>
           </Select>
           <Button
             onClick={() => {
               setDirection(direction === "asc" ? "desc" : "asc");
+
               const sortOrder = filterOrderBySort(
                 sortType,
                 allOrder,

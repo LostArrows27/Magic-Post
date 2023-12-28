@@ -24,21 +24,6 @@ export default async function OrdersPage() {
     .neq("state", "đang chuyển đến điểm giao dịch đích")
     .returns<Parcel[]>();
 
-  /* Action
-    1. xác nhận giao hàng 
-    2. xác nhận giao thành công 
-    3. xác nhận giao thất bại
-    4. xem thông tin hàng 
-  */
-
-  /* State
-    1. đã nhận từ khách hàng -> kho: 1 + 4
-    2. đã nhận từ điểm tập kết đích -> kho: 1 + 4
-    3. sẵn sàng giao hàng -> đang giao: 2 + 3 + 4
-    4. đã giao -> thành công: 4
-    5. đã trả lại điểm tập kết đích: 2 + 4
-  */
-
   if (error) {
     console.log(error);
     return redirect("/");
