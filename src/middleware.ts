@@ -7,19 +7,23 @@ import type { Database } from "@/types/supabase-type";
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
   const supabase = createMiddlewareClient<Database>({ req, res });
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   const { pathname } = new URL(req.url);
+
+  if (user && pathname.startsWith("/client/order-detail/")) {
+    return res;
+  }
 
   if (!user && pathname === "/office/dashboard") {
     return NextResponse.redirect(
       new URL(`/sign-in?redirect=${encodeURIComponent(pathname)}`, req.url)
     );
-  }else if(!user &&  pathname !== "/" && pathname !== "/sign-in" ) {
-    return NextResponse.redirect(
-      new URL(`/`, req.url)
-    );
+  } else if (!user && pathname !== "/" && pathname !== "/sign-in") {
+    return NextResponse.redirect(new URL(`/`, req.url));
   }
   if (user) {
     if (
