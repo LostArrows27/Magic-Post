@@ -10,20 +10,21 @@ export type LocationAndManager = {
   manager_id: string;
   province_id: number;
   province_meta_data: {
-    PROVINCE_CODE: string
-    PROVINCE_ID: number
-    PROVINCE_NAME: string
-    VALUE: string
+    PROVINCE_CODE: string;
+    PROVINCE_ID: number;
+    PROVINCE_NAME: string;
+    VALUE: string;
   };
   type: "tap_ket" | "giao_dich";
   staffs: Staff;
   // Add other properties as needed
-}
+};
 
 interface LocationStore {
   locations: LocationAndManager[];
   isLoading: boolean;
   isError: boolean;
+  setLocations: (locations: LocationAndManager[]) => void;
   fetchLocations: (type: string, supabase: SupabaseClient) => Promise<void>;
 }
 
@@ -31,6 +32,7 @@ export const useLocation = create<LocationStore>((set) => ({
   locations: [],
   isLoading: false,
   isError: false,
+  setLocations: (locations: LocationAndManager[]) => set({ locations }),
   fetchLocations: async (type: string, supabase: SupabaseClient) => {
     set({ isLoading: true, isError: false });
     try {
@@ -38,7 +40,7 @@ export const useLocation = create<LocationStore>((set) => ({
         .from("locations")
         .select("*, staffs!locations_manager_id_fkey(*)")
         .eq("type", type);
-        //console.log(data);
+      //console.log(data);
 
       if (error) {
         throw error;
@@ -46,7 +48,7 @@ export const useLocation = create<LocationStore>((set) => ({
 
       set({ locations: data ?? [], isLoading: false });
     } catch (error) {
-      console.error('Error fetching locations:', error);
+      console.error("Error fetching locations:", error);
       set({ isLoading: false, isError: true });
     }
   },

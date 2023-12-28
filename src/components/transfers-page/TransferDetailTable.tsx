@@ -81,7 +81,7 @@ const TransferDetailTable = () => {
   const { workLocation } = useUser();
 
   const onOpen = useViewTransferModal((set) => set.onOpen);
-
+  
   return (
     <Table>
       <TableCaption>
