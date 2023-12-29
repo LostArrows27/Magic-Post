@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { userNav } from "@/types/user-nav";
 import { useSessionContext } from "@supabase/auth-helpers-react";
+import convertStaffRole from "@/lib/convertStaffRole";
 
 export function UserNav(user: userNav) {
   const { supabaseClient } = useSessionContext();
@@ -41,7 +42,7 @@ export function UserNav(user: userNav) {
             )}
             {user.userDetails?.role && (
               <p className="w-[200px] truncate text-sm text-zinc-700 capitalize">
-                {user.userDetails.role}
+                {convertStaffRole(user.userDetails.role)}
               </p>
             )}
           </div>

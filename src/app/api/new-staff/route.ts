@@ -123,6 +123,7 @@ export async function POST(request: Request) {
     role: `${department}_staff`,
     gender,
     dob,
+    email,
     work_place_id: workplaceId,
   });
 

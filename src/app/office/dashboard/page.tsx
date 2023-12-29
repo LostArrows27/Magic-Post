@@ -1,21 +1,23 @@
-import { Metadata } from "next"
-import { Button } from "@/components/ui/button"
+import { Metadata } from "next";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { OverviewLineChart } from "@/components/dashboard/overview-linechart"
-import { OverviewCard } from "@/components/dashboard/overview-card"
-import { OverviewItems } from "@/constants/overview-card"
-import { OverviewPieChart } from "@/components/dashboard/overview-piechart"
+} from "@/components/ui/card";
+import { OverviewLineChart } from "@/components/statistics/overview-line-chart";
+import { OverviewCard } from "@/components/dashboard/overview-card";
+import { OverviewItems } from "@/constants/overview-card";
+import { OverviewPieChart } from "@/components/dashboard/overview-piechart";
+import NewLocationButton from "@/components/dashboard/new-location-button";
+import { data_line_overview } from "@/constants/line-chart"
 
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Master dashboard",
-}
+};
 
 export default function DashboardPage() {
   return (
@@ -25,15 +27,13 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between space-y-2">
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
             <div className="flex items-center space-x-2">
-              <Button>Download</Button>
+              <NewLocationButton />
             </div>
           </div>
           <div defaultValue="overview" className="space-y-4">
-            {/* Tab List */}
-            {/* Tab content */}
             <div  className="space-y-4">
               {/* Overview Card */}
-              <OverviewCard items={OverviewItems}/>
+              <OverviewCard items={OverviewItems} />
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 {/* Overview Line Chart */}
                 <Card className="col-span-5 bg-neutral-100">
@@ -41,7 +41,7 @@ export default function DashboardPage() {
                     <CardTitle>Overview</CardTitle>
                   </CardHeader>
                   <CardContent className="pl-2">
-                    <OverviewLineChart/>
+                    <OverviewLineChart items={data_line_overview}/>
                   </CardContent>
                 </Card>
 
@@ -55,16 +55,16 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col gap-4">
-                        <div className="flex flex-col">
-                          <p className="font-semibold">New Customer</p>
-                          <p className="text-green-500">50%</p>
-                        </div>
-                        <div className="flex flex-col">
-                          <p className="font-semibold">Retargeted Customer</p>
-                          <p className="text-blue-500">50%</p>
-                        </div>
+                      <div className="flex flex-col">
+                        <p className="font-semibold">New Customer</p>
+                        <p className="text-green-500">50%</p>
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="font-semibold">Retargeted Customer</p>
+                        <p className="text-blue-500">50%</p>
+                      </div>
                     </div>
-                    <OverviewPieChart/>
+                    <OverviewPieChart />
                   </CardContent>
                 </Card>
               </div>
@@ -73,5 +73,5 @@ export default function DashboardPage() {
         </div>
       </div>
     </>
-  )
+  );
 }

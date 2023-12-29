@@ -49,9 +49,11 @@ const ViewTransferModal = () => {
   const { workLocation, userDetails } = useUser();
 
   if (!transfer) return null;
+
   const canVerified =
     !transfer?.has_verfied && transfer?.to.id === workLocation.id;
 
+  if (!transfer) return null;
 
   const handleVerified = async () => {
     if (!canVerified) return;

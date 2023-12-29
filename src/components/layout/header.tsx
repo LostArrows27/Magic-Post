@@ -21,8 +21,8 @@ export default function Header({ userDetails }: { userDetails: Staff }) {
           href={"/office"}
           className="hidden h-full items-center justify-start pl-4 gap-2 md:flex w-60 border-r border-r-neutral-300"
         >
-          <Truck className="h-6 w-6" />
-          <h1 className="text-lg font-semibold">Magic Post</h1>
+          <Truck className="h-6 w-6 text-primary" />
+          <h1 className="text-xl font-bold tracking-wider super">Magic Post</h1>
         </Link>
 
         <div className={cn("block md:!hidden")}>{/* <MobileSidebar /> */}</div>

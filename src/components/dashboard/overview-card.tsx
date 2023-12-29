@@ -20,9 +20,9 @@ export function OverviewCard({ items, className }: SideNavProps) {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">{item.content}</div>
-                    <p className="text-xs text-muted-foreground">
+                    {/* <p className="text-xs text-muted-foreground">
                       {item.fluctuate}
-                    </p>
+                    </p> */}
                   </CardContent>
                 </Card>
             ))}
