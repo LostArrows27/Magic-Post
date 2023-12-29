@@ -30,7 +30,7 @@ export default async function OrdersPage() {
   }
 
   return (
-    <div className="p-10 pt-6 w-full h-full bg-border">
+    <div className="p-10 pt-6 bg-border">
       <div className="mb-4 flex justify-between w-full">
         <h1 className="font-bold text-3xl ">Manage Orders</h1>
       </div>
