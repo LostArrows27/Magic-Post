@@ -4,5 +4,6 @@ export interface LineChartItem {
     delivered?: number;
     failed?: number;
     total?: number;
+    progress?: number;
     amt?: number;
 }

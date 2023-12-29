@@ -14,6 +14,7 @@ import { HubItems } from "@/constants/hub-card";
 import { data_bar } from "@/constants/bar-chart";
 import { data_line_hub } from "@/constants/line-chart";
 import { OverviewCardCentralHub } from "../overview-card-central-hub/overview-card-centralhub";
+import { OverviewCardHub } from "./overview-card-hub";
 // data tam thoi
 
 export default function StatisticsDisplay({
@@ -35,11 +36,7 @@ export default function StatisticsDisplay({
           Download
         </Button>
       </div>
-      {role === "tk_staff" ? (
-        <OverviewCardCentralHub />
-      ) : (
-        <OverviewCard items={HubItems} />
-      )}
+      {role === "tk_staff" ? <OverviewCardCentralHub /> : <OverviewCardHub />}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
         {/* Overview Line Chart */}
         <Card className="col-span-5 bg-neutral-100">

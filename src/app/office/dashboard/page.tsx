@@ -12,14 +12,78 @@ import { OverviewCard } from "@/components/dashboard/overview-card";
 import { OverviewItems } from "@/constants/overview-card";
 import { OverviewPieChart } from "@/components/dashboard/overview-piechart";
 import NewLocationButton from "@/components/dashboard/new-location-button";
-import { data_line_overview } from "@/constants/line-chart"
-
+import { supabaseServer } from "@/utils/supabaseServer";
+import { OverviewItem } from "@/types/overview-item";
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Master dashboard",
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  let date = new Date();
+  date.setFullYear(date.getFullYear() - 1);
+
+  const supabaseClient = supabaseServer();
+  const { data: delivered, error: deliverdError } = await supabaseClient
+    .from("parcels")
+    .select("id, date_sent")
+    .eq("state", "đã giao")
+    .gte("date_sent", date.toISOString())
+    .order("date_sent", { ascending: false });
+  const { data: totalData } = await supabaseClient
+    .from("parcels")
+    .select("id, date_sent")
+    .gte("date_sent", date.toISOString())
+    .order("date_sent", { ascending: false });
+  const { data: failed, error: failedError } = await supabaseClient
+    .from("parcels")
+    .select("id, date_sent")
+    .eq("state", "đã trả lại điểm giao dịch đích")
+    .gte("date_sent", date.toISOString())
+    .order("date_sent", { ascending: false });
+  const { data: progressData } = await supabaseClient
+    .from("parcels")
+    .select("id, date_sent")
+    .in("state", [
+      "đã nhận từ khách hàng",
+      "đang chuyển đến điểm tập kết gửi",
+      "đã nhận từ điểm giao dịch gửi",
+      "đang chuyển đến điểm tập kết đích",
+      "đã nhận từ điểm tập kết gửi",
+      "đang chuyển đến điểm giao dịch đích",
+      "đã nhận từ điểm tập kết đích",
+      "sẵn sàng giao hàng",
+    ])
+    .gte("date_sent", date.toISOString())
+    .order("date_sent", { ascending: false });
+
+  const overViewData: OverviewItem[] = OverviewItems.map((item) => {
+    switch (item.title) {
+      case "Orders":
+        return {
+          ...item,
+          content: totalData?.length,
+        };
+      case "Orders delivered":
+        return {
+          ...item,
+          content: delivered?.length,
+        };
+      case "Orders in progress":
+        return {
+          ...item,
+          content: failed?.length,
+        };
+      case "Orders failed":
+        return {
+          ...item,
+          content: progressData?.length,
+        };
+      default:
+        return item;
+    }
+  }) as OverviewItem[];
+
   return (
     <>
       <div className="hidden flex-col md:flex fade-in">
@@ -31,9 +95,9 @@ export default function DashboardPage() {
             </div>
           </div>
           <div defaultValue="overview" className="space-y-4">
-            <div  className="space-y-4">
+            <div className="space-y-4">
               {/* Overview Card */}
-              <OverviewCard items={OverviewItems} />
+              <OverviewCard items={overViewData} />
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 {/* Overview Line Chart */}
                 <Card className="col-span-5 bg-neutral-100">
@@ -41,7 +105,7 @@ export default function DashboardPage() {
                     <CardTitle>Overview</CardTitle>
                   </CardHeader>
                   <CardContent className="pl-2">
-                    <OverviewLineChart items={data_line_overview}/>
+                    <OverviewLineChart />
                   </CardContent>
                 </Card>
 
