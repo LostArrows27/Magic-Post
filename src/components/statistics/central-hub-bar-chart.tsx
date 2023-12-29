@@ -1,5 +1,6 @@
 import { months } from "@/constants/month";
 import { useCentralHubStat } from "@/hooks/useCentralHubStat";
+import { useLocationDetail } from "@/hooks/useLocationDetail";
 import { useUser } from "@/hooks/useUser";
 import { BarChartItem } from "@/types/bar-chart-item";
 import { useSupabase } from "@/utils/supabaseClient";
@@ -17,10 +18,11 @@ import {
 import { toast } from "sonner";
 
 interface BarChartProps {
+  hub_id?: string | undefined | null;
   className?: string;
 }
 
-export function CentralHubBarChart({ className }: BarChartProps) {
+export function CentralHubBarChart({ className, hub_id }: BarChartProps) {
   const [data_bar, setData_bar] = useState<BarChartItem[]>(() => {
     return months.map((month) => {
       return {
@@ -36,14 +38,12 @@ export function CentralHubBarChart({ className }: BarChartProps) {
 
   const centralhubStats = useCentralHubStat();
 
-  const { workLocation } = useUser();
-
   const supabase = useSupabase();
 
   useEffect(() => {
     const fetch = async () => {
       try {
-        if (!supabase || !workLocation?.id) return;
+        if (!supabase || !hub_id) return;
 
         // create a new Date that is start from 12 month ago from now
 
@@ -59,9 +59,7 @@ export function CentralHubBarChart({ className }: BarChartProps) {
         const { data, error } = await supabase
           .from("transfers")
           .select("*, transfer_details(*)")
-          .or(
-            `from_location_id.eq.${workLocation?.id},to_location_id.eq.${workLocation?.id}`
-          )
+          .or(`from_location_id.eq.${hub_id},to_location_id.eq.${hub_id}`)
           .gte("date_transferred", startDate.toISOString());
 
         if (data === null) {
@@ -99,8 +97,7 @@ export function CentralHubBarChart({ className }: BarChartProps) {
 
         data!.forEach((transfer) => {
           const transferMonth = new Date(transfer.date_transferred).getMonth();
-          const isFromWorkLocation =
-            transfer.from_location_id === workLocation.id;
+          const isFromWorkLocation = transfer.from_location_id === hub_id;
 
           transfer.transfer_details.forEach((transferDetail) => {
             const parcelId = transferDetail.parcel_id;
@@ -120,10 +117,7 @@ export function CentralHubBarChart({ className }: BarChartProps) {
 
             //  haven't delivired yet to the central hub
             if (
-              !(
-                !transfer.has_verfied &&
-                transfer.to_location_id === workLocation.id
-              )
+              !(!transfer.has_verfied && transfer.to_location_id === hub_id)
             ) {
               monthsCount[monthName].total++;
               all.count++;
@@ -134,26 +128,17 @@ export function CentralHubBarChart({ className }: BarChartProps) {
             }
 
             // stat count
-            if (
-              transfer.to_location_id === workLocation.id &&
-              transfer.has_verfied
-            ) {
+            if (transfer.to_location_id === hub_id && transfer.has_verfied) {
               stash.count++;
               monthsCount[monthName].stash?.push(parcelId);
             }
 
-            if (
-              transfer.from_location_id === workLocation.id &&
-              !transfer.has_verfied
-            ) {
+            if (transfer.from_location_id === hub_id && !transfer.has_verfied) {
               progress.count++;
               monthsCount[monthName].progress?.push(parcelId);
             }
 
-            if (
-              transfer.from_location_id === workLocation.id &&
-              transfer.has_verfied
-            ) {
+            if (transfer.from_location_id === hub_id && transfer.has_verfied) {
               delivered.count++;
               monthsCount[monthName].deliveredOnly?.push(parcelId);
             }
@@ -231,7 +216,7 @@ export function CentralHubBarChart({ className }: BarChartProps) {
     };
 
     fetch();
-  }, [supabase, workLocation?.id]);
+  }, [supabase, hub_id]);
 
   return (
     <ResponsiveContainer width="100%" height={450}>

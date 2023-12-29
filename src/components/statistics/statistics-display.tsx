@@ -45,9 +45,9 @@ export default function StatisticsDisplay({
           </CardHeader>
           <CardContent className="pl-2">
             {work_place_type === "tap_ket" ? (
-              <CentralHubBarChart />
+              <CentralHubBarChart hub_id={work_place_id} />
             ) : (
-              <HubLineChart />
+              <HubLineChart hub_id={work_place_id} />
             )}
           </CardContent>
         </Card>

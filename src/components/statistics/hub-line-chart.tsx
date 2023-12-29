@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { useHubLineChart } from "@/hooks/useHubLineChart";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 interface LineChartProps {
+  hub_id?: string | undefined | null;
   className?: string;
 }
 
@@ -34,7 +35,7 @@ interface hubLineChartItem {
   delivered?: number;
   delivering?: number;
 }
-export function HubLineChart({ className }: LineChartProps) {
+export function HubLineChart({ className, hub_id }: LineChartProps) {
   const { setDelivered, setDelivering, setStored } = useHubLineChart();
   const [data, setData] = useState<hubLineChartItem[]>([]);
   const [filter, setFilter] = useState<"week" | "year">("week");
@@ -72,15 +73,24 @@ export function HubLineChart({ className }: LineChartProps) {
       const { data: delivered, error: deliverdError } = await supabaseClient
         .from("parcels")
         .select("id, date_sent")
-        .eq("origin_location_id", userDetails!.work_place_id as string)
-        .neq("current_location_id", userDetails!.work_place_id as string)
+        .eq(
+          "origin_location_id",
+          hub_id || (userDetails.work_place_id as string)
+        )
+        .neq(
+          "current_location_id",
+          hub_id || (userDetails.work_place_id as string)
+        )
         .gte("date_sent", date.toISOString())
         .order("date_sent", { ascending: false });
 
       const { data: delivered2, error: deliverd2Error } = await supabaseClient
         .from("parcels")
         .select("id, date_sent")
-        .eq("current_location_id", userDetails!.work_place_id as string)
+        .eq(
+          "current_location_id",
+          hub_id || (userDetails.work_place_id as string)
+        )
         .eq("state", "đã giao")
         .gte("date_sent", date.toISOString())
         .order("date_sent", { ascending: false });
@@ -88,7 +98,10 @@ export function HubLineChart({ className }: LineChartProps) {
       const { data: stored, error: storedError } = await supabaseClient
         .from("parcels")
         .select("id, date_sent")
-        .eq("current_location_id", userDetails!.work_place_id as string)
+        .eq(
+          "current_location_id",
+          hub_id || (userDetails.work_place_id as string)
+        )
         .in("state", [
           "đã nhận từ khách hàng",
           "đã nhận từ điểm tập kết đích",
@@ -100,7 +113,10 @@ export function HubLineChart({ className }: LineChartProps) {
       const { data: delivering, error: deliveringError } = await supabaseClient
         .from("parcels")
         .select("id, date_sent")
-        .eq("current_location_id", userDetails!.work_place_id as string)
+        .eq(
+          "current_location_id",
+          hub_id || (userDetails.work_place_id as string)
+        )
         .in("state", ["đang chuyển đến điểm tập kết gửi"])
         .gte("date_sent", date.toISOString())
         .order("date_sent", { ascending: false });
