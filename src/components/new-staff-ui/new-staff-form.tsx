@@ -85,12 +85,12 @@ export default function NewStaffForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn("w-[600px]  space-y-4  ")}
+        className={cn("w-[600px]  space-y-6  ")}
       >
         <h1 className="super text-4xl text-center  font-bold tracking-wider">
           New Staff
         </h1>
-        <p className="italic text-base text-center text-muted-foreground !mb-10">
+        <p className="italic text-base text-center text-muted-foreground !mb-7">
           Fill in the form below the add new Staff
         </p>
         {/* <Button
@@ -245,7 +245,7 @@ export default function NewStaffForm() {
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
-          className="w-full  font-bold uppercase tracking-widest flex items-centers !mt-6 mb-10"
+          className="w-full  font-bold uppercase tracking-widest flex items-centers !mt-8 mb-10"
         >
           Add Staff
           {form.formState.isSubmitting && (

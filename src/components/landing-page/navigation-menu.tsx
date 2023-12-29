@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { ModeToggle } from "../mode-toggle/ModeToggle";
 import { settings } from "@/config/setting";
 import { navLinks } from "@/constants/nav-link";
@@ -78,13 +77,13 @@ export default function NavigationMenuBar() {
             <ul className="flex flex-col items-center space-y-4 opacity-60 md:flex-row md:space-x-6 md:space-y-0">
               {navLinks.map((link) => (
                 <li key={link.route}>
-                  <Link
+                  <a
                     className={cn("hover:underline")}
                     href={link.path}
                     onClick={handleClick}
                   >
                     {link.route}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -93,9 +92,9 @@ export default function NavigationMenuBar() {
         {settings.themeToggleEnabled && (
           <div className="hidden md:flex ml-8 items-center gap-x-4">
             <ModeToggle />
-            <Link href={"#search"}>
+            <a href={"#search"}>
               <Button>Track Parcel</Button>
-            </Link>
+            </a>
           </div>
         )}
       </nav>
