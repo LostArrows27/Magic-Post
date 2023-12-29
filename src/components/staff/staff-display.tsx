@@ -15,6 +15,8 @@ import { Info, UserPlus } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useStaffModal } from "@/hooks/useStaffModal";
+import convertStaffRole from "@/lib/convertStaffRole";
+import { useUser } from "@/hooks/useUser";
 
 export default function StaffDisplay({
   work_place_id,
@@ -28,7 +30,7 @@ export default function StaffDisplay({
   const router = useRouter();
   const { onOpen } = useStaffModal();
   const { supabaseClient: supabase } = useSessionContext();
-
+  const { userDetails } = useUser();
   let { staffs, isLoading, isError, fetchStaffs } = useStaff();
 
   useEffect(() => {
@@ -47,15 +49,17 @@ export default function StaffDisplay({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h4 className="text-xl font-bold  ml-3">Staffs</h4>
-        <Button
-          variant="link"
-          className="text-lg font-bold tracking-tight"
-          onClick={async () => {
+        {userDetails.role !== "leader" && (
+          <Button
+            variant="link"
+            className="text-lg font-bold tracking-tight"
+            onClick={async () => {
               router.push("/office/new-staff");
-          }}
-        >
-          + New Staff
-        </Button>
+            }}
+          >
+            + New Staff
+          </Button>
+        )}
       </div>
       <Table>
         <TableHeader>
@@ -65,7 +69,7 @@ export default function StaffDisplay({
             <TableHead className="w-32">Gender</TableHead>
             <TableHead className="w-44">DoB</TableHead>
             <TableHead className="w-56">Phone Number</TableHead>
-            <TableHead className="w-24">Role</TableHead>
+            <TableHead className="">Role</TableHead>
             <TableHead className="text-right">More</TableHead>
           </TableRow>
         </TableHeader>
@@ -78,7 +82,9 @@ export default function StaffDisplay({
                 <TableCell className="capitalize">{staff.gender}</TableCell>
                 <TableCell>{staff.dob}</TableCell>
                 <TableCell>{staff.phone_number}</TableCell>
-                <TableCell className="capitalize">{staff.role}</TableCell>
+                <TableCell className="capitalize">
+                  {convertStaffRole(staff.role)}
+                </TableCell>
                 <TableCell className="text-right">
                   <Info
                     onClick={() => {

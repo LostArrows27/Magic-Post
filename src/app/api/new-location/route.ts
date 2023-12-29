@@ -49,7 +49,17 @@ export async function POST(request: Request) {
       error: "You are not authorized to perform this action",
     });
 
+    //check the place whether it exist
+
   const work_place_id = "gd_" + formData.province.PROVINCE_ID + "_" + formData.district.DISTRICT_ID;
+
+  const {data: existWorkplaceData,error:workPlaceError} = await supabaseRouteHandler.from('locations').select('*').eq('id',work_place_id)
+
+  if(existWorkplaceData && existWorkplaceData.length > 0) {
+      return NextResponse.json({
+          error: "This place already exist"
+      })
+  }
   const supabase = createClient(
     process.env .NEXT_PUBLIC_SUPABASE_URL as string,
     process.env.SUPABASE_SERVICE_ROLE_KEY as string,

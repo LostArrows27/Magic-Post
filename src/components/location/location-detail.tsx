@@ -14,6 +14,7 @@ import {
   TableCell,
 } from "../ui/table";
 import { useStaffModal } from "@/hooks/useStaffModal";
+import convertStaffRole from "@/lib/convertStaffRole";
 
 export default function LocationDetail() {
   const { isOpen, onClose, manager, hub_id, hub_type } = useLocationDetail(
@@ -62,7 +63,7 @@ export default function LocationDetail() {
                   <TableHead className="w-32">Gender</TableHead>
                   <TableHead className="w-44">DoB</TableHead>
                   <TableHead className="w-56">Phone Number</TableHead>
-                  <TableHead className="w-24">Role</TableHead>
+                  <TableHead className="">Role</TableHead>
                   <TableHead className="text-right">More</TableHead>
                 </TableRow>
               </TableHeader>
@@ -73,7 +74,7 @@ export default function LocationDetail() {
                   <TableCell className="capitalize">{manager.gender}</TableCell>
                   <TableCell>{manager.dob}</TableCell>
                   <TableCell>{manager.phone_number}</TableCell>
-                  <TableCell className="capitalize">{manager.role}</TableCell>
+                  <TableCell className="capitalize">{convertStaffRole(manager.role)}</TableCell>
                   <TableCell className="text-right">
                     <Info className=" float-right cursor-pointer" onClick={() => {
                         onOpen(manager);
