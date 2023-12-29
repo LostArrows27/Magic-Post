@@ -6,20 +6,30 @@ interface StaffStore {
   staffs: Staff[];
   isLoading: boolean;
   isError: boolean;
-  fetchStaffs: (work_place_id: string | null | undefined, role: string | undefined, supabase: SupabaseClient) => Promise<void>;
+  setStaffs: (staffs: Staff[]) => void;
+  fetchStaffs: (
+    work_place_id: string | null | undefined,
+    role: string | undefined,
+    supabase: SupabaseClient
+  ) => Promise<void>;
 }
 
 export const useStaff = create<StaffStore>((set) => ({
   staffs: [],
   isLoading: false,
   isError: false,
-  fetchStaffs: async (work_place_id: string | null | undefined, role: string | undefined, supabase: SupabaseClient) => {
+  setStaffs: (staffs: Staff[]) => set({ staffs }),
+  fetchStaffs: async (
+    work_place_id: string | null | undefined,
+    role: string | undefined,
+    supabase: SupabaseClient
+  ) => {
     set({ isLoading: true, isError: false });
     try {
       const { data, error } = await supabase
         .from("staffs")
         .select("*")
-        .match({"work_place_id": work_place_id, "role": role});
+        .match({ work_place_id: work_place_id, role: role });
 
       if (error) {
         throw error;
@@ -27,7 +37,7 @@ export const useStaff = create<StaffStore>((set) => ({
 
       set({ staffs: data ?? [], isLoading: false });
     } catch (error) {
-      console.error('Error fetching locations:', error);
+      console.error("Error fetching locations:", error);
       set({ isLoading: false, isError: true });
     }
   },

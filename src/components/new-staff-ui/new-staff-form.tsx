@@ -85,7 +85,7 @@ export default function NewStaffForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn("w-[600px]  space-y-4 ")}
+        className={cn("w-[600px]  space-y-4  ")}
       >
         <h1 className="super text-4xl text-center  font-bold tracking-wider">
           New Staff
