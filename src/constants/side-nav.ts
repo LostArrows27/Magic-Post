@@ -1,5 +1,5 @@
 import { NavItem } from "@/types/nav-item";
-import { LayoutDashboard, UserPlus, Users, PlusCircle, GanttChartSquare, Package, Boxes, ListTodo, Cylinder, Database } from "lucide-react";
+import { LayoutDashboard, UserPlus, Users, PlusCircle, GanttChartSquare, Package, Boxes, ListTodo, Cylinder, ActivitySquare } from "lucide-react";
 
 export const NavItems: NavItem[] = [
     {
@@ -58,5 +58,11 @@ export const NavItems: NavItem[] = [
         icon: Users,
         href: "/office/staffs",
         color: "text-sky-500",
+    },
+    {
+        title: "Statistics",
+        icon: ActivitySquare,
+        href: "/office/statistics",
+        color: "text-pink-500",
     },
 ];

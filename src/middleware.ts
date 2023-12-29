@@ -35,6 +35,7 @@ export async function middleware(req: NextRequest) {
       pathname !== "/office/transfers" &&
       pathname !== "/office/new-staff" &&
       pathname !== "/office/staffs" &&
+      pathname !== "/office/statistics" &&
       pathname !== "/"
     ) {
       return NextResponse.redirect(new URL(`/office/transfers`, req.url));
@@ -44,6 +45,7 @@ export async function middleware(req: NextRequest) {
       pathname !== "/office/orders" &&
       pathname !== "/office/new-staff" &&
       pathname !== "/office/staffs" &&
+      pathname !== "/office/statistics" &&
       pathname !== "/"
     ) {
       return NextResponse.redirect(new URL(`/office/orders`, req.url));
