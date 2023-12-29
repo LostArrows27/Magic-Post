@@ -46,18 +46,22 @@ export const useTrack = create<TrackStore>((set) => ({
 
       const queryByTime = new Date(getTime).toISOString();
 
-      const { data, error } = (await supabase
+      let { data, error } = (await supabase
         .from("parcels")
         .select(
           "*, trackings(*, locations(*)), receiver:customers!parcels_receiver_id_fkey(*), sender:customers!parcels_sender_id_fkey(*)"
         )
         .eq("date_sent", queryByTime)
-        .order("date_sent", { ascending: false })
         .returns<TracksData>()
         .single()) as never as {
         data: TracksData | undefined;
         error: any;
       };
+
+      if (error) {
+        console.log(error);
+        throw new Error("Parcel ID is not valid");
+      }
 
       let estimatePrice = "";
 
@@ -71,11 +75,15 @@ export const useTrack = create<TrackStore>((set) => ({
         );
       }
 
-      if (error) {
-        throw error;
-      }
+      // sort trackings by date desc
 
-      console.log(data);
+      if (data?.trackings) {
+        data.trackings.sort((a, b) => {
+          return (
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          );
+        });
+      }
 
       set({
         tracks: (data as TracksData) ?? [],

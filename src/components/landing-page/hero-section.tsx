@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -15,13 +14,12 @@ export default function HeroSection() {
             We deliver your product safe in a reasonable time
           </h2>
         </div>
-        <Link
-          href="/"
-          target=""
+        <a
+          href="#service"
           className={`w-[10rem] ${cn(buttonVariants({ size: "lg" }))}`}
         >
           Getting Started
-        </Link>
+        </a>
       </div>
       <div className="flex flex-1 justify-center lg:justify-end">
         <Image
