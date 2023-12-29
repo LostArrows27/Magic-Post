@@ -1,12 +1,13 @@
+"use client"
 import { LineChartItem } from '@/types/line-chart-item';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-interface LineChartProps {
+interface OverviewLineChartProps {
   items: LineChartItem[];
   className?: string;
 }
 
-export function OverviewLineChart({ items, className }: LineChartProps) {
+export function OverviewLineChart({ items, className }: OverviewLineChartProps) {
   return (
     <ResponsiveContainer width="100%" height={450}>
         <LineChart
