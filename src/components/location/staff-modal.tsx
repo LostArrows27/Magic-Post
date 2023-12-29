@@ -147,7 +147,6 @@ const StaffModal = () => {
       if (currentStaff.role.includes("admin")) {
         setManager(currentStaff);
       } else if (currentStaff.role.includes("staff")) {
-        console.log("refetch");
         //update the staff in staffs using setSTaff
         const newStaffs = staffs.map((staff) => {
           if (staff.id === currentStaff.id) {
@@ -350,59 +349,13 @@ const StaffModal = () => {
               Email:
             </div>
             <div className="col-span-3 flex gap-x-3 items-center group">
-              {!phoneNumber.edit ? (
-                <>
-                  {currentStaff.phone_number}
-                  <Pen
-                    className="w-4 h-4 opacity-0 group-hover:opacity-100 cursor-pointer"
-                    onClick={() => {
-                      setPhoneNumber((prev) => ({ ...prev, edit: true }));
-                    }}
-                  />
-                </>
-              ) : (
-                <>
-                  <Input
-                    value={phoneNumber.value}
-                    onChange={(e) => {
-                      setPhoneNumber((prev) => ({
-                        ...prev,
-                        value: e.target.value,
-                      }));
-                    }}
-                    className={cn("", phoneNumber.error && "border-red-500")}
-                  />
-                  <Check
-                    onClick={() => {
-                      //check if phone number is valid check the length and the format with regex ^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$
-                      if (
-                        !RegExp(
-                          /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
-                        ).test(phoneNumber.value)
-                      ) {
-                        setPhoneNumber((prev) => ({
-                          ...prev,
-                          error: true,
-                        }));
-                        return;
-                      }
-
-                      handleUpdate("phonenumber");
-                    }}
-                    className="w-8 h-8 cursor-pointer hover:bg-muted rounded-full p-1 text-green-500 "
-                  />
-                  <X
-                    onClick={() => {
-                      setPhoneNumber((prev) => ({
-                        ...prev,
-                        value: currentStaff.phone_number,
-                        edit: false,
-                      }));
-                    }}
-                    className="w-8 h-8 cursor-pointer hover:bg-muted rounded-full p-1 text-red-400"
-                  />
-                </>
-              )}
+              {currentStaff.email}
+              <Pen
+                className="w-4 h-4 opacity-0 group-hover:opacity-100 cursor-pointer"
+                onClick={() => {
+                  setPhoneNumber((prev) => ({ ...prev, edit: true }));
+                }}
+              />
             </div>
           </div>
 

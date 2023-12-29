@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import TransferConfirmModal from "@/components/new-transfer/transfer-confirm-modal";
 import ViewTransferModal from "@/components/view-transfer-modal/ViewTransferModal";
 import ViewParcelInformation from "@/components/new-transfer/view-parcel-informations";
+import NewLocationModal from "@/components/dashboard/new-location-modal";
 
 const ModalProviders = () => {
   // Prevent modal open when SSR
@@ -24,6 +25,7 @@ const ModalProviders = () => {
       <NewStaffAccountModal />
       <TransferConfirmModal />
       <ViewParcelInformation />
+      <NewLocationModal />
     </>
   );
 };

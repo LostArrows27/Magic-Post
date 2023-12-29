@@ -52,15 +52,7 @@ export default function LocationDetail() {
               <h4 className="text-xl font-semibold tracking-tight ml-3">
                 Manager
               </h4>
-              <Button
-                variant="link"
-                className="text-xl font-bold tracking-tight"
-                onClick={async () => {
-                //   router.push("/office/new-staff");
-                }}
-              >
-                + New Admin
-              </Button>
+             
             </div>
             <Table>
               <TableHeader>

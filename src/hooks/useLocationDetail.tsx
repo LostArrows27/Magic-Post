@@ -21,6 +21,7 @@ const initialValue = {
     home_town: "",
     id: "",
     phone_number: "",
+    email:"",
     role: "",
     work_place_id: null,
   } as unknown as Staff,
