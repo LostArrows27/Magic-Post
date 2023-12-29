@@ -10,6 +10,11 @@ body,
   box-sizing: border-box;
   --plyr-video-control-background-hover: #3dbda7;
   --plyr-range-fill-background: #3dbda7;
+  scroll-behavior: smooth;
+}
+
+* {
+  scroll-behavior: smooth;
 }
 
 .remove-button>button {
@@ -36,6 +41,8 @@ body,
     padding: 0.1em;
     position: absolute;
 }
+
+
 
 @layer base {
   :root {
@@ -75,6 +82,44 @@ body,
     --ring: 31 67% 23%;
 
     --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Name: custom color palette
+       Author: Ilias Ism
+       URL: https://gradient.page */
+
+    /* CSS: .bg-gradient { background: var(--gradient) } */
+    --gradient: #485563;
+
+    --background: 224 10.4% 2.72%;
+    --foreground: 224 1.6% 96.7%;
+
+    --muted: 224 8% 10.200000000000001%;
+    --muted-foreground: 224 1.6% 53.4%;
+
+    --popover: 224 61.8% 4.42%;
+    --popover-foreground: 224 1.6% 96.7%;
+
+    --card: 224 61.8% 4.42%;
+    --card-foreground: 224 1.6% 96.7%;
+
+    --border: 224 8% 10.200000000000001%;
+    --input: 224 8% 10.200000000000001%;
+
+    --primary: 224 16% 34%;
+    --primary-foreground: 224 1.6% 96.7%;
+
+    --secondary: 224 8% 10.200000000000001%;
+    --secondary-foreground: 224 1.6% 96.7%;
+
+    --accent: 224 8% 10.200000000000001%;
+    --accent-foreground: 224 1.6% 96.7%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 224 1.6% 96.7%;
+
+    --ring: 224 16% 34%;
   }
 
 }

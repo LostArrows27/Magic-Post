@@ -30,11 +30,11 @@ export default async function OrdersPage() {
   }
 
   return (
-    <div className="p-10 pt-6 bg-border">
+    <div className="p-10 w-full  pt-6">
       <div className="mb-4 flex justify-between w-full">
         <h1 className="font-bold text-3xl ">Manage Orders</h1>
       </div>
-      <div className="bg-background w-full h-full rounded-xl">
+      <div className="bg-background w-full h-fit rounded-xl">
         <AllOrders parcel={data} />
       </div>
     </div>
