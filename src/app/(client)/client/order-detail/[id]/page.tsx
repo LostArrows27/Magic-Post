@@ -53,8 +53,6 @@ const OrderDetail = async ({ params: { id } }: Props) => {
 
   const duration = (await estimateFee).split("- ")[1];
 
-  console.log(data);
-  0;
   return (
     <div className="w-full font-['Times_New_Roman'] h-full bg-white">
       <div className="m-auto flex flex-col p-5 mt-1 relative border-2 border-black w-[8.7in] h-[6.5in]">
