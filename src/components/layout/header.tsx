@@ -28,13 +28,7 @@ export default function Header({ userDetails }: { userDetails: Staff }) {
         <div className={cn("block md:!hidden")}>{/* <MobileSidebar /> */}</div>
 
         <div className="flex items-center gap-2 justify-between flex-1">
-          <div className="flex items-center ml-6 w-96">
-            <Input
-              type="text"
-              placeholder="Search something"
-              className="pl-4 pr-4"
-            />
-          </div>
+          <div className="flex items-center ml-6 w-96"></div>
 
           {/* <ThemeToggle /> */}
           {userDetails ? (
