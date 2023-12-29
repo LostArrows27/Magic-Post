@@ -1,7 +1,7 @@
-import Link from "next/link"
-import Image from "next/image"
-import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import Link from "next/link";
+import Image from "next/image";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function HeroSection() {
   return (
@@ -23,14 +23,15 @@ export default function HeroSection() {
           Getting Started
         </Link>
       </div>
-        <div className="flex flex-1 justify-center lg:justify-end">
-          <Image
-            src={"/images/hero-illu.png"}
-            width={500}
-            height={500}
-            alt="Header image"
-          />
-        </div>
+      <div className="flex flex-1 justify-center lg:justify-end">
+        <Image
+          priority
+          src={"/images/hero-illu.png"}
+          width={500}
+          height={500}
+          alt="Header image"
+        />
+      </div>
     </section>
-  )
+  );
 }
