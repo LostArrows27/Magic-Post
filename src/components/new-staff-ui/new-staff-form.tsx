@@ -107,7 +107,11 @@ export default function NewStaffForm() {
             <FormItem>
               <FormLabel>Full Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter a full name" {...field} />
+                <Input
+                  className="border-primary"
+                  placeholder="Enter a full name"
+                  {...field}
+                />
               </FormControl>
 
               <FormMessage />
@@ -126,7 +130,7 @@ export default function NewStaffForm() {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        " pl-3 text-left font-normal",
+                        " pl-3 text-left font-normal border-primary",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -168,7 +172,7 @@ export default function NewStaffForm() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-primary">
                       <SelectValue placeholder="Select a gender" />
                     </SelectTrigger>
                   </FormControl>
@@ -203,7 +207,11 @@ export default function NewStaffForm() {
               <FormItem className="flex-1">
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter phone number" {...field} />
+                  <Input
+                    className="border-primary"
+                    placeholder="Enter phone number"
+                    {...field}
+                  />
                 </FormControl>
 
                 <FormMessage />
@@ -218,7 +226,11 @@ export default function NewStaffForm() {
             <FormItem>
               <FormLabel>Home Town</FormLabel>
               <FormControl>
-                <Input placeholder="Enter home town address" {...field} />
+                <Input
+                  className="border-primary"
+                  placeholder="Enter home town address"
+                  {...field}
+                />
               </FormControl>
 
               <FormMessage />
