@@ -113,6 +113,10 @@ const LastForm = () => {
 
       setLoading(false);
       toast.success("Created order successfully");
+
+      const newDate = new Date(data![0].date_sent).getTime();
+
+      window.open(`/client/order-detail/${newDate}`, "_blank");
       window.location.reload();
     } catch (error: any) {
       setLoading(false);
