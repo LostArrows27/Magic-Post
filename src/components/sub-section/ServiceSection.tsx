@@ -4,7 +4,10 @@ import { SiWebmoney } from "react-icons/si";
 import { Button } from "../ui/button";
 const ServiceSection = () => {
   return (
-    <section className="container flex flex-col gap-4 pb-12 pt-4 text-center lg:items-center lg:gap-6 lg:py-20">
+    <section
+      id="service"
+      className="container flex flex-col gap-4 pb-12 pt-4 text-center lg:items-center lg:gap-6 lg:py-20"
+    >
       <h1 className="text-xl font-bold lg:text-4xl">Services</h1>
       <h2 className="text-lg font-light text-muted-foreground lg:text-2xl">
         Our services for you

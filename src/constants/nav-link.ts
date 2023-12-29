@@ -4,7 +4,11 @@ export const navLinks = [
     path: "/",
   },
   {
-    route: "Contact",
-    path: "/contact",
+    route: "Service",
+    path: "#service",
+  },
+  {
+    route: "Achievements",
+    path: "#achievements",
   },
 ];

@@ -2,7 +2,10 @@ import { CiMap, CiTrophy, CiUser, CiBank } from "react-icons/ci";
 import { CiDeliveryTruck } from "react-icons/ci";
 const Count = () => {
   return (
-    <section className="container flex flex-col gap-4 pb-12 pt-4 text-center lg:items-center lg:gap-6 lg:py-20">
+    <section
+      id="achievements"
+      className="container flex flex-col gap-4 pb-12 pt-4 text-center lg:items-center lg:gap-6 lg:py-20"
+    >
       <div className="flex items-center w-full justify-center gap-x-[160px]">
         <div className="center flex-col gap-y-4">
           <CiTrophy className="text-6xl" />
