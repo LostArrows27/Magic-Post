@@ -16,11 +16,14 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import StatisticsDisplay from "../statistics/statistics-display";
 import convertStaffRole from "@/lib/convertStaffRole";
+import { useStaffModal } from "@/hooks/useStaffModal";
 
 export default function LocationDetail() {
   const { isOpen, onClose, manager, hub_id, hub_type } = useLocationDetail(
     (set) => set
   );
+
+  const { onOpen } = useStaffModal();
 
   return (
     <>
@@ -82,7 +85,12 @@ export default function LocationDetail() {
                         {convertStaffRole(manager.role)}
                       </TableCell>
                       <TableCell className="text-right">
-                        <Info className=" float-right cursor-pointer" />
+                        <Info
+                          onClick={() => {
+                            onOpen(manager);
+                          }}
+                          className=" float-right cursor-pointer"
+                        />
                       </TableCell>
                     </TableRow>
                   </TableBody>
