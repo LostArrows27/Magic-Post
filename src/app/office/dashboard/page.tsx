@@ -7,10 +7,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { OverviewLineChart } from "@/components/dashboard/overview-linechart"
+import { OverviewLineChart } from "@/components/statistics/overview-line-chart"
 import { OverviewCard } from "@/components/dashboard/overview-card"
 import { OverviewItems } from "@/constants/overview-card"
 import { OverviewPieChart } from "@/components/dashboard/overview-piechart"
+import { data_line_overview } from "@/constants/line-chart"
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -29,8 +30,6 @@ export default function DashboardPage() {
             </div>
           </div>
           <div defaultValue="overview" className="space-y-4">
-            {/* Tab List */}
-            {/* Tab content */}
             <div  className="space-y-4">
               {/* Overview Card */}
               <OverviewCard items={OverviewItems}/>
@@ -41,7 +40,7 @@ export default function DashboardPage() {
                     <CardTitle>Overview</CardTitle>
                   </CardHeader>
                   <CardContent className="pl-2">
-                    <OverviewLineChart/>
+                    <OverviewLineChart items={data_line_overview}/>
                   </CardContent>
                 </Card>
 
