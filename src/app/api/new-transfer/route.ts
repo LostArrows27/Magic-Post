@@ -36,18 +36,18 @@ export async function POST(request: Request) {
     });
 
   // create a transfer record
-  const { data: transferData, } =
-    await supabaseRouteHandler
-      .from("transfers")
-      .insert({
-        from_location_id: originLocation,
-        to_location_id: selectedLocation,
-        created_staff: data.user.id,
-      })
-      .select()
-      .single();
+  const { data: transferData } = await supabaseRouteHandler
+    .from("transfers")
+    .insert({
+      from_location_id: originLocation,
+      to_location_id: selectedLocation,
+      created_staff: data.user.id,
+    })
+    .select()
+    .single();
 
-    if(!transferData) return NextResponse.json({ error: "Cannot create transfer" });
+  if (!transferData)
+    return NextResponse.json({ error: "Cannot create transfer" });
   // create transfer details
   const { error: transferDetailError } = await supabaseRouteHandler
     .from("transfer_details")
@@ -68,9 +68,14 @@ export async function POST(request: Request) {
   }
   //update parcel status
 
-  console.log(seleted,parcelState,selectedLocation)
-  const res1 = await Promise.all( seleted.map((parcel) => supabaseRouteHandler.from("parcels").update({ state: parcelState,current_location_id:selectedLocation}).eq("id", parcel.id)));
- 
+  const res1 = await Promise.all(
+    seleted.map((parcel) =>
+      supabaseRouteHandler
+        .from("parcels")
+        .update({ state: parcelState, current_location_id: selectedLocation })
+        .eq("id", parcel.id)
+    )
+  );
 
   //update tracking
   const res = await Promise.all(
@@ -83,5 +88,8 @@ export async function POST(request: Request) {
     )
   );
 
-  return NextResponse.json({success:"You have created a new transfer.", error:  transferDetailError?.message  });
+  return NextResponse.json({
+    success: "You have created a new transfer.",
+    error: transferDetailError?.message,
+  });
 }

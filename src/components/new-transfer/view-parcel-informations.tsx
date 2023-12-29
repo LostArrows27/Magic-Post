@@ -36,7 +36,6 @@ import { FaLocationDot } from "react-icons/fa6";
 import { ImTruck } from "react-icons/im";
 import {
   FaBoxOpen,
-  
   FaCheckSquare,
   FaIdCard,
   FaShoppingCart,
@@ -92,7 +91,7 @@ export default function ViewParcelInformation() {
         }
       })();
     }
-  }, [parcel]);
+  }, [parcel, supabaseClient]);
   if (!parcel)
     return (
       <Modal
@@ -118,20 +117,20 @@ export default function ViewParcelInformation() {
       <div className="w-full mt-4 flex flex-col gap-y-5">
         <div className="flex items-start  justify-between">
           <div className="flex items-center gap-x-4">
-            <FaIdCard className="text-lg text-yellow-600" />
+            <FaIdCard className="text-xl mr-1 text-yellow-600" />
             <div className="font-bold">ID</div>
           </div>
-          <div className="max-w-[60%] break-words">
+          <div className="max-w-[60%] break-words text-right">
             {/* {format(new Date(transfer.date_transferred), "p P")} */}
             {parcel.id}
           </div>
         </div>
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-x-4">
-            <FaShoppingCart className="text-lg text-green-600" />
+            <FaShoppingCart className="text-xl mr-1 text-green-600" />
             <div className="font-bold">Product Name</div>
           </div>
-          <div className="max-w-[60%] break-words">
+          <div className="max-w-[60%] break-words text-right">
             {/* {convertLocationID(transfer.from.id)},{" "}
             {convertLocationToString(transfer.from)} */}
             {parcel.product_name}
@@ -139,10 +138,10 @@ export default function ViewParcelInformation() {
         </div>
         <div className="flex items-start  justify-between">
           <div className="flex items-center gap-x-4">
-            <TbFileDescription className="text-lg text-blue-600" />
+            <TbFileDescription className="text-xl mr-1 text-blue-600" />
             <div className="font-bold">Description</div>
           </div>
-          <div className="max-w-[60%] break-words">
+          <div className="max-w-[60%] break-words text-right">
             {/* {convertLocationID(transfer.to.id)},{" "}
             {convertLocationToString(transfer.to)} */}
             {parcel.description}
@@ -150,10 +149,10 @@ export default function ViewParcelInformation() {
         </div>
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-x-4">
-            <ImTruck className="text-lg text-green-600" />
+            <ImTruck className="text-xl mr-1 text-rose-500" />
             <div className="font-bold">From</div>
           </div>
-          <div className="max-w-[60%] break-words">
+          <div className="max-w-[60%] break-words text-right text-right">
             <div className="font-bold text-right">{sender?.full_name}</div>
             {convertLocationID(parcel.origin_location_id)},{" "}
             {convertLocationIdToString({
@@ -166,10 +165,10 @@ export default function ViewParcelInformation() {
         </div>
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-x-4">
-            <FaLocationDot className="text-lg text-blue-600" />
+            <FaLocationDot className="text-xl mr-1 text-blue-600" />
             <div className="font-bold">To</div>
           </div>
-          <div className="max-w-[60%] break-words">
+          <div className="max-w-[60%] text-right break-words">
             <div className="font-bold text-right">{receiver?.full_name}</div>
             {convertLocationID(parcel.destination_location_id)},{" "}
             {convertLocationIdToString({
@@ -182,7 +181,7 @@ export default function ViewParcelInformation() {
         </div>
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-x-4">
-            <FaBoxOpen className="text-lg text-red-600" />
+            <FaBoxOpen className="text-xl mr-1 text-red-600" />
             <div className="font-bold">
               Measures (weight/height/width/length)
             </div>
@@ -197,10 +196,10 @@ export default function ViewParcelInformation() {
         </div>
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-x-4">
-            <FaCheckSquare className="text-lg text-pink-600" />
+            <FaCheckSquare className="text-xl mr-1 text-pink-600" />
             <div className="font-bold">Date Sent</div>
           </div>
-          <div className="max-w-[60%] break-words">
+          <div className="max-w-[60%] break-words text-right">
             {format(new Date(parcel.date_sent), "p P")}
           </div>
         </div>

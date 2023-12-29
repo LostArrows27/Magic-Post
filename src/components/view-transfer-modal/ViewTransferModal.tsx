@@ -47,8 +47,9 @@ const ViewTransferModal = () => {
   const supabaseClient = useSupabase();
 
   const { workLocation, userDetails } = useUser();
-
+  
   if (!transfer) return null;
+  
   const canVerified =
     !transfer?.has_verfied && transfer?.to.id === workLocation.id;
 

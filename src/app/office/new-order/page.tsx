@@ -3,7 +3,10 @@ import OrderProgress from "@/components/new-order-page/OrderProgress";
 
 export default function NewOrderPage() {
   return (
-    <div className="p-10 w-full  bg-border">
+    <div className="p-10 pt-6 w-full  bg-border">
+      <div className="mb-4 flex justify-between w-full">
+        <h1 className="font-bold text-3xl ">New Orders</h1>
+      </div>
       <div className="w-full bg-background rounded-xl pl-[6%] pr-[10%] flex py-10">
         <div className="w-1/4 h-[calc(100vh-200px)] scale-90 pt-[80px]">
           <OrderProgress />
