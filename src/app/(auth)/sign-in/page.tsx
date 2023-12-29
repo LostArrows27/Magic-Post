@@ -20,7 +20,6 @@ import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 export type tSignInSchema = z.infer<typeof SignInSchema>;
 export default function SignIn() {
   const router = useRouter();
@@ -56,7 +55,7 @@ export default function SignIn() {
   return (
     <main className="bg-background relative flex flex-col items-center w-screen h-full overflow-hidden">
       <Image
-        src={"/images/login-bg.png"}
+        src={"/images/Login-2.png"}
         width={1700}
         height={910}
         alt="bg"
@@ -73,7 +72,7 @@ export default function SignIn() {
           glareBorderRadius="24px"
           glarePosition="all"
           className={cn(
-            "w-[500px] h-fit fade-in  bg-form rounded-3xl flex flex-col justify-center items-center p-12 ",
+            "w-[500px] h-fit fade-in  bg-form rounded-3xl  flex flex-col justify-center items-center p-12 ",
             outAnimation && " fade-out"
           )}
         >
@@ -99,7 +98,7 @@ export default function SignIn() {
                         placeholder="Email"
                         type="email"
                         {...field}
-                        className="bg-transparent  text-base tracking-wider  border-t-0 border-l-0 border-r-0 text-primary placeholder:text-primary border-primary rounded-none focus-visible:!ring-offset-0 focus-visible:border-b-primary focus-visible:placeholder:text-primary  focus-visible:!ring-0"
+                        className="bg-transparent text-white text-base tracking-wider  border-t-0 border-l-0 border-r-0 text-primary placeholder:text-primary border-primary rounded-none focus-visible:!ring-offset-0 focus-visible:border-b-primary focus-visible:placeholder:text-primary  focus-visible:!ring-0"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500" />
@@ -143,23 +142,6 @@ export default function SignIn() {
             </form>
           </Form>
         </Tilt>
-
-        <p
-          className={cn(
-            " fade-in max-w-[600px] z-10  mt-10  px-8 text-center",
-            outAnimation && " fade-out"
-          )}
-        >
-          This sign in route is for{" "}
-          <span className="text-primary cursor-pointer">
-            Magic Post&apos;s Staff Only
-          </span>
-          . If you are not a staff member please go to the back to{" "}
-          <Link href={"/"} className="text-primary cursor-pointer">
-            Main Page
-          </Link>
-          .
-        </p>
       </div>
     </main>
   );
