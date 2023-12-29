@@ -21,7 +21,16 @@ interface BarChartProps {
 }
 
 export function CentralHubBarChart({ className }: BarChartProps) {
-  const [data_bar, setData_bar] = useState<BarChartItem[]>([]);
+  const [data_bar, setData_bar] = useState<BarChartItem[]>(() => {
+    return months.map((month) => {
+      return {
+        name: month,
+        delivered: 0,
+        total: 0,
+        amt: 0,
+      };
+    });
+  });
 
   const [loading, setLoading] = useState<boolean>(false);
 
