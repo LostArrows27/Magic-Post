@@ -15,6 +15,7 @@ import {
 } from "@/components/layout/subnav-accordion";
 import { useEffect, useState } from "react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { useUser } from "@/hooks/useUser";
 
 interface SideNavProps {
   items: NavItem[];
@@ -27,6 +28,7 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
   const { isOpen } = useSidebar();
   const [openItem, setOpenItem] = useState("");
   const [lastOpenItem, setLastOpenItem] = useState("");
+  const { userDetails } = useUser();
 
   useEffect(() => {
     if (isOpen) {
@@ -41,7 +43,7 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
     return (
         <nav className="space-y-2">
             {items.map((item) =>
-                item.isChidren ? (
+                (item.role.includes(userDetails.role)) && (item.isChidren ? (
                     <Accordion
                         type="single"
                         collapsible
@@ -125,7 +127,7 @@ export function SideNav({ items, setOpen, className }: SideNavProps) {
                         </span>
                     </Link>
                 )
-            )}
+            ))}
         </nav>
     );
 }

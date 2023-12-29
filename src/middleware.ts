@@ -38,7 +38,7 @@ export async function middleware(req: NextRequest) {
       pathname !== "/office/statistics" &&
       pathname !== "/"
     ) {
-      return NextResponse.redirect(new URL(`/office/transfers`, req.url));
+      return NextResponse.redirect(new URL(`/office/statistics`, req.url));
     } else if (
       user.user_metadata.type === "gd_admin" &&
       pathname !== "/office/transfers" &&
@@ -48,7 +48,7 @@ export async function middleware(req: NextRequest) {
       pathname !== "/office/statistics" &&
       pathname !== "/"
     ) {
-      return NextResponse.redirect(new URL(`/office/orders`, req.url));
+      return NextResponse.redirect(new URL(`/office/statistics`, req.url));
     } else if (
       user.user_metadata.type === "tk_staff" &&
       pathname !== "/office/new-transfer" &&
