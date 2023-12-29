@@ -72,12 +72,12 @@ export default async function DashboardPage() {
       case "Orders in progress":
         return {
           ...item,
-          content: failed?.length,
+          content: progressData?.length,
         };
       case "Orders failed":
         return {
           ...item,
-          content: progressData?.length,
+          content: failed?.length,
         };
       default:
         return item;
