@@ -10,6 +10,6 @@ export function convertConfirmTransferState(from: Location, to: Location) {
   }
 
   if (from.type === "tap_ket" && to.type === "giao_dich") {
-    return "sẵn sàng giao hàng";
+    return "đã nhận từ điểm tập kết đích";
   }
 }

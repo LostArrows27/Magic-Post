@@ -3,6 +3,7 @@ import { UserSystem } from "@/types/user-context-type";
 import { redirect } from "next/navigation";
 import { TransferWithParcelData } from "@/types/supabase-table-type";
 import AllTransfers from "@/components/transfers-page/AllTransfers";
+import { wait } from "@/lib/wait";
 
 export default async function TransfersPage() {
   const supabase = supabaseServer();
@@ -47,7 +48,10 @@ export default async function TransfersPage() {
   }
 
   return (
-    <div className="p-10 w-full h-full bg-border">
+    <div className="p-10 pt-6 w-full h-full bg-border">
+      <div className="mb-4 flex justify-between w-full">
+        <h1 className="font-bold text-3xl ">Manage Transfers</h1>
+      </div>
       <div className="bg-background w-full h-full rounded-xl">
         <AllTransfers transfers={data} />
       </div>

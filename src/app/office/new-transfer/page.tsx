@@ -46,7 +46,6 @@ export default async function NewTransferPage() {
           };
         });
       }
-     
     } catch (error) {
       return <TransferPageError />;
     }
@@ -101,7 +100,6 @@ export default async function NewTransferPage() {
         <div className="mb-4 flex justify-between w-full">
           <h1 className="font-bold text-3xl ">Create a Transfer</h1>
         </div>
-
         <OrderList parcels={parcels1} type={"gd=>tk"} />
       </div>
     );

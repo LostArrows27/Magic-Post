@@ -16,13 +16,15 @@ export type Tracking = Tables<"trackings">;
 export type TransferDetail = Tables<"transfer_details">;
 export type Transfers = Tables<"transfers">;
 
+export type AddressMetaData = {
+  province: Province;
+  district: District;
+  ward?: Ward;
+  subward?: Subward;
+};
+
 export type Customer = Omit<Tables<"customers">, "address_meta_data"> & {
-  address_meta_data: {
-    province: Province;
-    district: District;
-    ward: Ward;
-    subward: Subward;
-  };
+  address_meta_data: AddressMetaData;
 };
 
 export type Location = Omit<
