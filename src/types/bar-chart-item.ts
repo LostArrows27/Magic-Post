@@ -1,7 +1,6 @@
-
 export interface BarChartItem {
-    name: string;
-    delivered: number;
-    total: number;
-    amt: number;
+  name: string;
+  delivered?: number;
+  total?: number;
+  amt?: number;
 }
