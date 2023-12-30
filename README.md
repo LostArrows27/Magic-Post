@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://github.com/LostArrows27/Magic-Post">
-
+    <img src="https://github.com/LostArrows27/Magic-Post/assets/97510841/d6412385-dde2-4a0e-8486-d2cd71881912" alt="Logo" width="220" height="220">
   </a>
   <h3>Magic Post</h3>
 <div>A delivery service platform features user-friendly, seamless, streamlining and efficient workflow</div>
@@ -102,12 +102,6 @@
 ## 💽 Set up and Local Development
 
 - Because of security reason for the database and API leak, we can just provide full installation step for teacher of the subject to testing local development. If you want to test the website, please contact us for more information.
-
-## ✏️ Testing
-
-- We testing mainly on E2E with passing all main feature of the website.
-- The system testing is fully implement with Selenium by @tronglinh23. 
-- See the testing reposity here [selenium_pentest](https://github.com/tronglinh23/selenium_pentest)
 
 ## 🛂 Contributing
 
